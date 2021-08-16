@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31605.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubnauticaModTest", "SubnauticaModTest\SubnauticaModTest.csproj", "{F95CD2C5-A0D8-4993-98D7-3DA0CC8E3298}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerSubnautica", "..\ServerSubnautica\ServerSubnautica\ServerSubnautica.csproj", "{D5DDCC57-FC3F-4A17-B674-D8FFE7664230}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerSubnautica", "ServerSubnautica\ServerSubnautica.csproj", "{21D86104-B6C8-4CFC-98AC-33DAA4A9C86B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{F95CD2C5-A0D8-4993-98D7-3DA0CC8E3298}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F95CD2C5-A0D8-4993-98D7-3DA0CC8E3298}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F95CD2C5-A0D8-4993-98D7-3DA0CC8E3298}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D5DDCC57-FC3F-4A17-B674-D8FFE7664230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D5DDCC57-FC3F-4A17-B674-D8FFE7664230}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D5DDCC57-FC3F-4A17-B674-D8FFE7664230}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D5DDCC57-FC3F-4A17-B674-D8FFE7664230}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21D86104-B6C8-4CFC-98AC-33DAA4A9C86B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21D86104-B6C8-4CFC-98AC-33DAA4A9C86B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21D86104-B6C8-4CFC-98AC-33DAA4A9C86B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21D86104-B6C8-4CFC-98AC-33DAA4A9C86B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

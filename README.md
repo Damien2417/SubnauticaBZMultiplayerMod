@@ -1,4 +1,6 @@
 # SubnauticaMod
 A multiplayer mod for Subnautica BZ
 
-DO NOT FORGET TO MODIFY "generation.bat"
+Please do not forget to modify these before using:
+-"generation.bat" file paths
+-ip address to host the server
