@@ -14,3 +14,5 @@ Please install .NET Framework 4.7.2
 Using:
 
 Open solution in Visual Studio, right click on SubnauticaModTest solution and do regenerate. It will regenerate project and excute regeneration.bat which setup the mod DLL and  start subnautica
+
+Start any game of subnautica, at the end of loading you'll be placed in the server
