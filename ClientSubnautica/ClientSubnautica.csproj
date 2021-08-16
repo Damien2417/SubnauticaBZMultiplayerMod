@@ -70,6 +70,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Jeux\Subnautica Below Zero\SubnauticaZero_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityExplorer.BIE5.Mono">
+      <HintPath>E:\Jeux\Subnautica Below Zero\BepInEx\plugins\UnityExplorer.BIE5.Mono.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="generation.bat" />

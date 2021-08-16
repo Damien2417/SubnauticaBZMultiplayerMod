@@ -10,13 +10,14 @@ class Program
     static readonly object _lock = new object();
     static readonly Dictionary<int, TcpClient> list_clients = new Dictionary<int, TcpClient>();
     static string ipAdress= "192.168.0.83";
+    static int port = 5000;
     static void Main(string[] args)
     {
         int count = 1;
         IPAddress host = IPAddress.Parse(ipAdress);
-        TcpListener ServerSocket = new TcpListener(host, 5000);
+        TcpListener ServerSocket = new TcpListener(host, port);
         ServerSocket.Start();
-        Console.WriteLine("Listening on 192.168.0.83:5000");
+        Console.WriteLine("Listening on "+ ipAdress+":"+port);
 
         while (true)
         {
@@ -78,7 +79,7 @@ class Program
             
             string[] data2 = data.Split(new string[] { "WORLDPOSITION" }, StringSplitOptions.None);
             foreach (var item in data2){
-                if (item.Length > 1){
+                if (item.Length > 3){
                     broadcast(id + "WORLDPOSITION" + item, id);
                     Console.WriteLine(id + "WORLDPOSITION" + item);
                 }

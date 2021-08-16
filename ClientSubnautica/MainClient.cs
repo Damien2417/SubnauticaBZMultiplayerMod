@@ -3,11 +3,15 @@ using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using UnityEngine;
+using UnityExplorer;
+using UnityExplorer.Inspectors;
+using UnityExplorer.ObjectExplorer;
 using UWE;
 
 namespace SubnauticaModTest
@@ -18,7 +22,9 @@ namespace SubnauticaModTest
 	[HarmonyPatch(typeof(MainGameController), "StartGame")]
 	public class Patches
 	{
-		class SimpleEnumerator : IEnumerable
+        static public GameObject GOTarget => Target as GameObject;
+        static public object Target { get; set; }
+        class SimpleEnumerator : IEnumerable
 		{
 			public IEnumerator enumerator;
 			public Action prefixAction, postfixAction;
@@ -100,6 +106,7 @@ namespace SubnauticaModTest
                     threadPosition.Join();
                     client.Close();
 
+                    //Receive data from server
                     void ReceiveData(TcpClient client2)
                     {
                         NetworkStream ns2 = client2.GetStream();
@@ -125,7 +132,6 @@ namespace SubnauticaModTest
                                 string pos = message.Split(new string[] { "WORLDPOSITION" }, StringSplitOptions.None)[1];
 
                                 lastPos[id] = pos;
-                                //UnityEngine.Debug.Log("var maj!" + lastPos[id]);
 
                             }
                             else if (message.Contains("ALLID:"))
@@ -138,10 +144,9 @@ namespace SubnauticaModTest
                                     foreach (var id in idArray)
                                     {
                                         if (id.Length > 0)
-                                        {
-                                            addPlayer(int.Parse(id));
-                                        }
+                                            addPlayer(int.Parse(id));                                     
                                     }
+                                    
                                     //UnityEngine.Debug.Log("Liste ajouté");
                                 }
                             }
@@ -149,6 +154,7 @@ namespace SubnauticaModTest
                         ns2.Close();
                     }
 
+                    //Send data to server
                     void SendData(TcpClient client2)
                     {
                         NetworkStream ns2 = client2.GetStream();
@@ -159,16 +165,19 @@ namespace SubnauticaModTest
                         string x = "";
                         string y = "";
                         string z = "";
-
-                        while (true)
+                                    
+                        
+                            while (true)
                         {
                             if (Player.main.transform.position.x.ToString() != x | Player.main.transform.position.y.ToString() != y | Player.main.transform.position.z.ToString() != z)
                             {
+                               //UnityEngine.Debug.Log(""+Player.main.rigidBody.rotation.eulerAngles.y);
+
                                 byte[] msgresponse = Encoding.ASCII.GetBytes("");
                                 Array.Clear(msgresponse, 0, msgresponse.Length);
 
                                 msgresponse = Encoding.ASCII.GetBytes("WORLDPOSITION" + "(" + Player.main.transform.position.x + ";" + Player.main.transform.position.y + ";" + Player.main.transform.position.z + ")");
-
+                                
                                 // Position envoyé !
                                 ns2.Write(msgresponse, 0, msgresponse.Length);
 
@@ -182,6 +191,7 @@ namespace SubnauticaModTest
                         }
                     }
 
+                    //Add a player
                     void addPlayer(int id)
                     {
                         //GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -194,12 +204,15 @@ namespace SubnauticaModTest
                         {
                             test = returnValue;
                             test.transform.position = pos;
-                            players.TryAdd(id, test);
-                            lastPos.TryAdd(id, "0");
-                            posLastLoop.TryAdd(id, "0");
-                        }));                                           
+                            players[id]= test;
+                            posLastLoop[id]="0";
+                            lastPos[id]= "0";
+                            
+                        }));
                     }
 
+                    
+                    //Set all players position locally
                     void setPosPlayer(TcpClient client2)
                     {
                         string pos;
@@ -207,36 +220,74 @@ namespace SubnauticaModTest
                         string y = "";
                         string z = "";
 
+                        //List<object> currentResults = SearchProvider.UnityObjectSearch(nameInputField.Text, compType, m_context, m_childFilter, m_sceneFilter);
+                        /*Type searchType = null;
+                        string compType = "UnityObject";
+                        if (ReflectionUtility.GetTypeByName(compType) is Type customType)
+                        {
+                            if (typeof(UnityEngine.Object).IsAssignableFrom(customType))
+                                searchType = customType;
+                        }
+                        var allObjects = RuntimeProvider.Instance.FindObjectsOfTypeAll(typeof(GameObject));
+                        string nameFilter = "player_view_female";
+                        foreach (var obj in allObjects)
+                        {
+                            if (!string.IsNullOrEmpty(nameFilter) && obj.name != nameFilter)
+                                continue;
+                            object aa = obj.TryCast();
+
+                            Target = aa as GameObject;
+
+                           
+
+                            GOTarget.transform.parent = GameObject.Find("player_view_female").transform;
+
+                            var clone = GameObject.Instantiate(GOTarget);
+
+                        }*/
+                        //GameObject bod = GameObject.Find("/Player/body");
+                        //GameObject.Instantiate(bod, new Vector3((float)-294.3636, (float)17.02644, (float)252.9224),Quaternion.identity);
+
+                        /*GameObject hand = GameObject.Find("player_view_female");
+                        hand.transform.SetParent(hand.transform);*/
+                        //GameObject.Instantiate(hand);
+
+                        //ConcurrentDictionary<int, string> localLastPos = new ConcurrentDictionary<int, string>();
+
                         while (true)
                         {
                             foreach (var item in lastPos)
                             {
                                 try
                                 {
-
                                     //UnityEngine.Debug.Log("iciii "+item.Key+" "+item.Value);
                                     //UnityEngine.Debug.Log("comparé au num " + item.Key + " valeur " + localPosLastLoop[item.Key]);
-
-                                    //UnityEngine.Debug.Log("item val:"+ item.Value+" localpos:"+ posLastLoop[item.Key]);
+                                    
                                     if (item.Value != posLastLoop[item.Key])
                                     {
-                                        //UnityEngine.Debug.Log("maj position du joueur");
                                         pos = item.Value.Split('(')[1];
                                         x = pos.Split(';')[0];
                                         y = pos.Split(';')[1];
                                         z = pos.Split(';')[2];
-                                        z = z.Remove(z.Length - 1);
-                                        players[item.Key].transform.position = new Vector3(float.Parse(x), float.Parse(y), float.Parse(z));
-                                        posLastLoop[item.Key] = lastPos[item.Key];
+                                        z = z.Substring(0, z.LastIndexOf(")"));
+                                        float x2 = float.Parse(x.Replace(",", "."), CultureInfo.InvariantCulture);
+                                        float y2 = float.Parse(y.Replace(",", "."), CultureInfo.InvariantCulture);
+                                        float z2 = float.Parse(z.Replace(",", "."), CultureInfo.InvariantCulture);
+                                        Vector3 vect = new Vector3(x2, y2, z2);
+                                        players[item.Key].transform.position=vect ;
+                                        posLastLoop[item.Key] = item.Value;
                                     }
                                 }
-                                catch { }
+                                catch(Exception e)
+                                {
+                                    UnityEngine.Debug.Log("It seem that you can't set the position of other players.\n"+e);
+                                }
                             }
                         }
                     }
                 }
             };
-			Action<object> preItemAction = (item) => {  };
+			Action<object> preItemAction = (item) => {};
 			Action<object> postItemAction = (item) => {};
 			Func<object, object> itemAction = (item) =>
 			{
