@@ -197,12 +197,7 @@ namespace SubnauticaModTest
                             players.TryAdd(id, test);
                             lastPos.TryAdd(id, "0");
                             posLastLoop.TryAdd(id, "0");
-                        }));
-                       
-
-                                             
-
-                        
+                        }));                                           
                     }
 
                     void setPosPlayer(TcpClient client2)
@@ -211,6 +206,7 @@ namespace SubnauticaModTest
                         string x = "";
                         string y = "";
                         string z = "";
+
                         while (true)
                         {
                             foreach (var item in lastPos)
