@@ -33,7 +33,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="MainClient.cs" />
-    <Compile Include="SetUpNewObject.cs" />
+    <Compile Include="GetGameObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
