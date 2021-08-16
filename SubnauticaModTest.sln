@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31605.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubnauticaModTest", "SubnauticaModTest\SubnauticaModTest.csproj", "{F95CD2C5-A0D8-4993-98D7-3DA0CC8E3298}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F95CD2C5-A0D8-4993-98D7-3DA0CC8E3298}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F95CD2C5-A0D8-4993-98D7-3DA0CC8E3298}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F95CD2C5-A0D8-4993-98D7-3DA0CC8E3298}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F95CD2C5-A0D8-4993-98D7-3DA0CC8E3298}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {25F94DD7-24F1-4BC8-BF64-B247EA60E7C9}
+	EndGlobalSection
+EndGlobal
