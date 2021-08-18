@@ -2,17 +2,13 @@
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using UnityEngine;
-using UnityExplorer;
-using UnityExplorer.Inspectors;
-using UnityExplorer.ObjectExplorer;
-using UWE;
+
 
 namespace SubnauticaModTest
 {
@@ -72,6 +68,7 @@ namespace SubnauticaModTest
                             break;
                         }
                         catch { }
+                        Thread.Sleep(500);
                     }
 
                     UnityEngine.Debug.Log("Server found !");
@@ -92,129 +89,206 @@ namespace SubnauticaModTest
                     //Thread position
                     Thread threadPosition = new Thread(o => setPosPlayer((TcpClient)o));
                     threadPosition.Start(client);
-
-                    string s;
+                    
                     while (true)
                     {
-                        //byte[] buffer = Encoding.ASCII.GetBytes(s);
-                        //ns.Write(buffer, 0, buffer.Length);
+                        
+                        if (!threadReceiver.IsAlive)
+                        {
+                            TcpClient client3 = new TcpClient();
+                          
+                            while (true)
+                            {
+                                try
+                                {
+                                    client.Connect(ip, port);
+                                    break;
+                                }
+                                catch { }
+                                Thread.Sleep(100);
+                            }
+                            threadReceiver.Join();
+                            threadReceiver.Abort();
+                            threadReceiver = new Thread(o => ReceiveData((TcpClient)o));
+                            threadReceiver.Start(client3);
+                        }
+                        if (!threadSender.IsAlive)
+                        {
+                            TcpClient client3 = new TcpClient();
+                            while (true)
+                            {
+                                try
+                                {
+                                    client.Connect(ip, port);
+                                    break;
+                                }
+                                catch { }
+                                Thread.Sleep(100);
+                            }
+                            threadSender.Join();
+                            threadSender.Abort();
+                            threadSender = new Thread(o => ReceiveData((TcpClient)o));
+                            threadSender.Start(client3);
+                        }
+                        if (!threadPosition.IsAlive)
+                        {
+                            TcpClient client3 = new TcpClient();                          
+                            threadPosition.Join();
+                            threadPosition.Abort();
+                            threadPosition = new Thread(o => ReceiveData((TcpClient)o));
+                            threadPosition.Start(client3);
+                        }
+                        Thread.Sleep(16);
                     }
-
-                    client.Client.Shutdown(SocketShutdown.Send);
-                    threadReceiver.Join();
-                    threadSender.Join();
-                    threadPosition.Join();
-                    client.Close();
-
+                    
+                  
+                    
                     //Receive data from server
                     void ReceiveData(TcpClient client2)
                     {
                         NetworkStream ns2 = client2.GetStream();
-                        byte[] receivedBytes = new byte[1024];
-                        int byte_count;
+                        try
+                        {                           
+                            byte[] receivedBytes = new byte[1024];
+                            int byte_count;
 
-                        //UnityEngine.Debug.Log("Attente de data du serveur");
-                        while ((byte_count = ns2.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
-                        {
-                            //UnityEngine.Debug.Log("Data recu");
-                            //SET POS PLAYERS
-                            string message = Encoding.ASCII.GetString(receivedBytes, 0, byte_count);
-
-                            if (message.Contains("NEWID:"))
+                            //UnityEngine.Debug.Log("Attente de data du serveur");
+                            while ((byte_count = ns2.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
                             {
-                                //UnityEngine.Debug.Log("Ajout joueur, id: " + int.Parse(message.Split(new string[] { "NEWID:" }, StringSplitOptions.None)[1]));
-                                addPlayer(int.Parse(message.Split(new string[] { "NEWID:" }, StringSplitOptions.None)[1]));
-                                //UnityEngine.Debug.Log("Joueur ajouté!");
-                            }
-                            else if (message.Contains("WORLDPOSITION"))
-                            {
-                                int id = int.Parse(message.Split(new string[] { "WORLDPOSITION" }, StringSplitOptions.None)[0]);
-                                string pos = message.Split(new string[] { "WORLDPOSITION" }, StringSplitOptions.None)[1];
+                                //UnityEngine.Debug.Log("Data recu");
+                                //SET POS PLAYERS
+                                string message = Encoding.ASCII.GetString(receivedBytes, 0, byte_count);
 
-                                lastPos[id] = pos;
-
-                            }
-                            else if (message.Contains("ALLID:"))
-                            {
-                                //UnityEngine.Debug.Log("Liste joueurs");
-                                string ids = message.Split(new string[] { "ALLID:" }, StringSplitOptions.None)[1];
-                                string[] idArray = ids.Split('$');
-                                if (idArray.Length > 1)
+                                if (message.Contains("NEWID:"))
                                 {
-                                    foreach (var id in idArray)
+                                    //UnityEngine.Debug.Log("Ajout joueur, id: " + int.Parse(message.Split(new string[] { "NEWID:" }, StringSplitOptions.None)[1]));
+                                    addPlayer(int.Parse(message.Split(new string[] { "NEWID:" }, StringSplitOptions.None)[1]));
+                                    //UnityEngine.Debug.Log("Joueur ajouté!");
+                                }
+                                else if (message.Contains("WORLDPOSITION"))
+                                {
+                                    int id = int.Parse(message.Split(new string[] { "WORLDPOSITION" }, StringSplitOptions.None)[0]);
+                                    string pos = message.Split(new string[] { "WORLDPOSITION" }, StringSplitOptions.None)[1];
+
+                                    lastPos[id] = pos;
+
+                                }
+                                else if (message.Contains("ALLID:"))
+                                {
+                                    //UnityEngine.Debug.Log("Liste joueurs");
+                                    string ids = message.Split(new string[] { "ALLID:" }, StringSplitOptions.None)[1];
+                                    string[] idArray = ids.Split('$');
+                                    if (idArray.Length > 1)
                                     {
-                                        if (id.Length > 0)
-                                            addPlayer(int.Parse(id));                                     
+                                        foreach (var id in idArray)
+                                        {
+                                            if (id.Length > 0)
+                                                addPlayer(int.Parse(id));
+                                        }
+
+                                        //UnityEngine.Debug.Log("Liste ajouté");
                                     }
-                                    
-                                    //UnityEngine.Debug.Log("Liste ajouté");
+                                }
+                                else if (message.Contains("DISCONNECTED"))
+                                {
+                                    try
+                                    {
+
+
+                                        string id = message.Split(new string[] { "DISCONNECTED" }, StringSplitOptions.None)[0];
+                                        GameObject val;
+                                        string val2;
+                                        string val3;
+                                        GameObject.Destroy(players[int.Parse(id)]);
+                                        
+                                        players.TryRemove(int.Parse(id), out val);
+                                        posLastLoop.TryRemove(int.Parse(id), out val2);
+                                        lastPos.TryRemove(int.Parse(id), out val3);
+                                    }
+                                    catch 
+                                    {}
                                 }
                             }
+                            ns2.Close();
                         }
-                        ns2.Close();
+                        catch (Exception e)
+                        {
+                            client2.Client.Shutdown(SocketShutdown.Send);                         
+                            ns2.Close();
+                            client2.Close();
+                        }
                     }
 
                     //Send data to server
                     void SendData(TcpClient client2)
                     {
-                        NetworkStream ns2 = client2.GetStream();
-                        
-                        string data = null;
+                        NetworkStream ns2 =client2.GetStream(); ;
+                        try
+                        {                         
+                            string data = null;
 
-                        string pos;
-                        string x = "";
-                        string y = "";
-                        string z = "";
-                                    
-                        
+                            string pos;
+                            string x = "";
+                            string y = "";
+                            string z = "";
+
+
                             while (true)
-                        {
-                            if (Player.main.transform.position.x.ToString() != x | Player.main.transform.position.y.ToString() != y | Player.main.transform.position.z.ToString() != z)
                             {
-                               //UnityEngine.Debug.Log(""+Player.main.rigidBody.rotation.eulerAngles.y);
-
-                                byte[] msgresponse = Encoding.ASCII.GetBytes("");
-                                Array.Clear(msgresponse, 0, msgresponse.Length);
-
-                                msgresponse = Encoding.ASCII.GetBytes("WORLDPOSITION" + "(" + Player.main.transform.position.x + ";" + Player.main.transform.position.y + ";" + Player.main.transform.position.z + ")");
                                 
-                                // Position envoyé !
-                                ns2.Write(msgresponse, 0, msgresponse.Length);
+                                if (Player.main.transform.position.x.ToString() != x | Player.main.transform.position.y.ToString() != y | Player.main.transform.position.z.ToString() != z)
+                                {
+                                    //UnityEngine.Debug.Log(""+Player.main.rigidBody.rotation.eulerAngles.y);
 
-                                data = Encoding.ASCII.GetString(msgresponse, 0, msgresponse.Length);
-                                pos = data.Split('(')[1];
-                                x = pos.Split(';')[0];
-                                y = pos.Split(';')[1];
-                                z = pos.Split(';')[2];
-                                z = z.Remove(z.Length - 1);
+                                    byte[] msgresponse = Encoding.ASCII.GetBytes("");
+                                    Array.Clear(msgresponse, 0, msgresponse.Length);
+
+                                    msgresponse = Encoding.ASCII.GetBytes("WORLDPOSITION" + "(" + Player.main.transform.position.x + ";" + Player.main.transform.position.y + ";" + Player.main.transform.position.z + ")");
+
+                                    // Position envoyé !
+                                    ns2.Write(msgresponse, 0, msgresponse.Length);
+
+                                    data = Encoding.ASCII.GetString(msgresponse, 0, msgresponse.Length);
+                                    pos = data.Split('(')[1];
+                                    x = pos.Split(';')[0];
+                                    y = pos.Split(';')[1];
+                                    z = pos.Split(';')[2];
+                                    z = z.Remove(z.Length - 1);
+                                }
+                                Thread.Sleep(16);
                             }
+                        }
+                        catch (Exception e)
+                        {
+                            byte[] test = Encoding.ASCII.GetBytes("");
+
+                            test = Encoding.ASCII.GetBytes("DISCONNECTED");
+
+                            ns2.Write(test, 0, test.Length);
+                            //client2.Client.Shutdown(SocketShutdown.Send);
+                            ns2.Close();
+                            client2.Close();
                         }
                     }
 
                     //Add a player
                     void addPlayer(int id)
                     {
-                        //GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-
                         var pos = new Vector3((float)-294.3636, (float)17.02644, (float)252.9224);
-
                         //CoroutineHost.StartCoroutine(Enumerable.SetupNewGameObject(TechType.DiveSuit));
-                        GameObject test = new GameObject();
-                        CoroutineHost.StartCoroutine(Enumerable.SetupNewGameObject(TechType.Workbench, returnValue =>
-                        {
-                            test = returnValue;
-                            test.transform.position = pos;
-                            players[id]= test;
-                            posLastLoop[id]="0";
-                            lastPos[id]= "0";
-                            
-                        }));
+                        GameObject test = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                        test.GetComponent<BoxCollider>().enabled = false;
+                        test.transform.position = pos;
+                        players.TryAdd(id, test);
+                        posLastLoop.TryAdd(id, "0");
+                        lastPos.TryAdd(id, "0");
                     }
 
                     
                     //Set all players position locally
                     void setPosPlayer(TcpClient client2)
                     {
+                        
                         string pos;
                         string x = "";
                         string y = "";
@@ -238,7 +312,7 @@ namespace SubnauticaModTest
 
                             Target = aa as GameObject;
 
-                           
+
 
                             GOTarget.transform.parent = GameObject.Find("player_view_female").transform;
 
@@ -262,7 +336,6 @@ namespace SubnauticaModTest
                                 {
                                     //UnityEngine.Debug.Log("iciii "+item.Key+" "+item.Value);
                                     //UnityEngine.Debug.Log("comparé au num " + item.Key + " valeur " + localPosLastLoop[item.Key]);
-                                    
                                     if (item.Value != posLastLoop[item.Key])
                                     {
                                         pos = item.Value.Split('(')[1];
@@ -274,16 +347,20 @@ namespace SubnauticaModTest
                                         float y2 = float.Parse(y.Replace(",", "."), CultureInfo.InvariantCulture);
                                         float z2 = float.Parse(z.Replace(",", "."), CultureInfo.InvariantCulture);
                                         Vector3 vect = new Vector3(x2, y2, z2);
-                                        players[item.Key].transform.position=vect ;
+                                        players[item.Key].transform.position = vect;
                                         posLastLoop[item.Key] = item.Value;
                                     }
                                 }
-                                catch(Exception e)
+                                catch (Exception e)
                                 {
-                                    UnityEngine.Debug.Log("It seem that you can't set the position of other players.\n"+e);
+                                        
+                                    UnityEngine.Debug.Log("It seem that you can't set the position of other players.\n" + e);
                                 }
+                                
                             }
+                            Thread.Sleep(16);
                         }
+                       
                     }
                 }
             };

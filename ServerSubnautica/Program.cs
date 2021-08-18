@@ -28,6 +28,7 @@ class Program
             Thread receiveThread = new Thread(handle_clients);
             receiveThread.Start(count);    
             count++;
+            Thread.Sleep(16);
         }
     }
 
@@ -40,16 +41,20 @@ class Program
         lock (_lock) client = list_clients[id];
         NetworkStream stream = client.GetStream();
         while (true)
-        {
-            
+        {            
             byte[] buffer = new byte[1024];
             //Array.Clear(buffer, 0, buffer.Length);
+            int byte_count=0;
+            try
+            {
+                byte_count = stream.Read(buffer, 0, buffer.Length);
+            }
+            catch (Exception e)
+            {
+                break;
+            }
 
-            int byte_count = stream.Read(buffer, 0, buffer.Length);
-
-            //Console.WriteLine(Encoding.ASCII.GetString(buffer, 0, byte_count));
-
-            if (byte_count == 0)
+            if (byte_count < 1)
             {
                 break;
             }
@@ -77,6 +82,10 @@ class Program
 
             string data = Encoding.ASCII.GetString(buffer, 0, byte_count);
             
+            if(data.Contains("DISCONNECTED"))
+            {
+                break;
+            }
             string[] data2 = data.Split(new string[] { "WORLDPOSITION" }, StringSplitOptions.None);
             foreach (var item in data2){
                 if (item.Length > 3){
@@ -85,15 +94,17 @@ class Program
                 }
                 
             }
-            
-            
+
+
             //Console.WriteLine(data+" from id "+id);
+            Thread.Sleep(8);
         }
 
         lock (_lock) list_clients.Remove(id);
         Console.WriteLine("Someone deconnected, id: "+id);
         client.Client.Shutdown(SocketShutdown.Both);
         client.Close();
+        broadcast(id+"DISCONNECTED", id);
     }
 
     public static void broadcast(string data, int id)
