@@ -31,8 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Class3.cs" />
+    <Compile Include="MenuConfig.cs" />
+    <Compile Include="StartMultiplayer.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="MainClient.cs" />
+    <Compile Include="ApplyPatches.cs" />
     <Compile Include="GetGameObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -51,16 +54,28 @@
     </Reference>
     <Reference Include="QModInstaller, Version=4.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Jeux\Subnautica Below Zero\BepInEx\plugins\QModManager\QModInstaller.dll</HintPath>
+      <HintPath>E:\Jeux\Subnautica Below Zero\SubnauticaZero_Data\Managed\QModInstaller.dll</HintPath>
     </Reference>
-    <Reference Include="SMLHelper">
+    <Reference Include="SMLHelper, Version=2.11.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Jeux\Subnautica Below Zero\QMods\SMLHelper_BZ\SMLHelper.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="TCPAsynchronousClient">
+      <HintPath>E:\Téléchargements\subnautica modding\TCPAsynchronousClient.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Jeux\Subnautica Below Zero\SubnauticaZero_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Jeux\Subnautica Below Zero\SubnauticaZero_Data\Managed\UnityEngine.AIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Jeux\Subnautica Below Zero\SubnauticaZero_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -69,9 +84,6 @@
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Jeux\Subnautica Below Zero\SubnauticaZero_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityExplorer.BIE5.Mono">
-      <HintPath>E:\Jeux\Subnautica Below Zero\BepInEx\plugins\UnityExplorer.BIE5.Mono.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

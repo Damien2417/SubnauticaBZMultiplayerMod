@@ -1,16 +1,22 @@
-﻿using HarmonyLib;
+﻿using ClientSubnautica;
+using HarmonyLib;
 using QModManager.API.ModLoading;
+using SMLHelper.V2.Handlers;
+using System.Reflection;
 
 namespace SubnauticaModTest
 {
     [QModCore]
-    public class MainPatcher
+    public static class MainPatcher
     {
+        internal static Config Config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
+
         [QModPatch]
         public static void Patch()
         {
-            Harmony harmony = new Harmony("com.boogaliwoogali.subnautica.SubnauticaModTest");
-            harmony.PatchAll();
+            Assembly executingAssembly = Assembly.GetExecutingAssembly();
+            string text = "dam_" + executingAssembly.GetName().Name;
+            new Harmony(text).PatchAll(executingAssembly);
         }
     }
 }
