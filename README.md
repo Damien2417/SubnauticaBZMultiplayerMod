@@ -8,9 +8,11 @@ Please do not forget to modify these before using:
 -ip address to host the server (server and client side)
 
 
+
 Please install .NET Framework 4.7.2
 
 https://dotnet.microsoft.com/download/dotnet-framework/net472
+
 
 
 Using:
