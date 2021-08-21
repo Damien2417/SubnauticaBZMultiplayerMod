@@ -5,7 +5,7 @@ using SMLHelper.V2.Options.Attributes;
 using SubnauticaModTest;
 using UnityEngine;
 
-namespace ClientSubnautica
+namespace SubnauticaMod
 {
 	// Token: 0x0200000E RID: 14
 	[Menu("Multiplayer", SaveOn =MenuAttribute.SaveEvents.None)]
@@ -16,7 +16,7 @@ namespace ClientSubnautica
 
         private void MyCheckboxToggleEvent(ToggleChangedEventArgs e)
         {
-            SubnauticaModTest.ApplyPatches.startMultiplayer = e.Value;
+            SubnauticaMod.ApplyPatches.startMultiplayer = e.Value;
         }
 
     }

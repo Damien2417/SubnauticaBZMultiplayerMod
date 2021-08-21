@@ -31,7 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Class3.cs" />
+    <Compile Include="triggerOnSpawnPiece.cs" />
+    <Compile Include="sendOnSpawnPiece.cs" />
     <Compile Include="MenuConfig.cs" />
     <Compile Include="StartMultiplayer.cs" />
     <Compile Include="Main.cs" />

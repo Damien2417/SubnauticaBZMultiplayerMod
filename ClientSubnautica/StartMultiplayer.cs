@@ -1,17 +1,13 @@
 ﻿using SubnauticaModTest;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 
-namespace ClientSubnautica
+namespace SubnauticaMod
 {
     internal class StartMultiplayer
     {
@@ -20,27 +16,26 @@ namespace ClientSubnautica
         public static ConcurrentDictionary<int, string> posLastLoop { get; set; }
         public static GameObject[] playerBodies { get; set; }
 
-
-        public static TcpClient main()
+        //Start the server
+        public static TcpClient startServer()
         {
             
             ErrorMessage.AddMessage("Searching server...");
             IPAddress ip = IPAddress.Parse("192.168.0.83");
             int port = 5000;
             TcpClient client = new TcpClient();
-            while (true)
+            
+            try
             {
-                try
-                {
-                    client.Connect(ip, port);
-                    break;
-                }
-                catch { }
-                Thread.Sleep(500);
+                client.Connect(ip, port);
+                ErrorMessage.AddMessage("Connected on " + ip + ":" + port + " !");
             }
-            ErrorMessage.AddMessage("Connected on " + ip + ":" + port + " !");
+            catch {
+                ErrorMessage.AddMessage("Erreur de connexion");
+            }            
             return client;
         }
+
 
         //Receive data from server
         internal static void ReceiveData(TcpClient client2)
@@ -50,9 +45,6 @@ namespace ClientSubnautica
             {
                 byte[] receivedBytes = new byte[1024];
                 int byte_count;
-
-
-
                 
                 while ((byte_count = ns2.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
                 {
@@ -84,17 +76,15 @@ namespace ClientSubnautica
                 string z = "";
                 while (true)
                 {
-                    string rotx = Player.main.transform.localRotation.eulerAngles.x.ToString();
+                    /*string rotx = Player.main.transform.localRotation.eulerAngles.x.ToString();
                     string roty = Player.main.transform.localRotation.eulerAngles.y.ToString();
-                    string rotz = Player.main.transform.localRotation.eulerAngles.z.ToString();
+                    string rotz = Player.main.transform.localRotation.eulerAngles.z.ToString();*/
                     if (Player.main.transform.position.x.ToString() != x | Player.main.transform.position.y.ToString() != y | Player.main.transform.position.z.ToString() != z)
-                    {
-                        //UnityEngine.Debug.Log(""+Player.main.rigidBody.rotation.eulerAngles.y);
-
+                    {                       
                         byte[] msgresponse = Encoding.ASCII.GetBytes("");
                         Array.Clear(msgresponse, 0, msgresponse.Length);
 
-                        msgresponse = Encoding.ASCII.GetBytes("WORLDPOSITION" + "(" + Player.main.transform.position.x + ";" + Player.main.transform.position.y + ";" + Player.main.transform.position.z +/*";"+rotx+";"+roty+";"+rotz+*/ ")");
+                        msgresponse = Encoding.ASCII.GetBytes("WorldPosition:" + "(" + Player.main.transform.position.x + ";" + Player.main.transform.position.y + ";" + Player.main.transform.position.z +/*";"+rotx+";"+roty+";"+rotz+*/ ")/END/");
 
 
                         // Position envoyé !
@@ -105,7 +95,7 @@ namespace ClientSubnautica
                         x = pos.Split(';')[0];
                         y = pos.Split(';')[1];
                         z = pos.Split(';')[2];
-                        z = z.Remove(z.Length - 1);
+                        z = z.Split(new string[] { ")/END/" }, StringSplitOptions.None)[0];
                     }
                     Thread.Sleep(16);
                 }
@@ -115,10 +105,11 @@ namespace ClientSubnautica
                 byte[] test = Encoding.ASCII.GetBytes("DISCONNECTED");
 
                 ns2.Write(test, 0, test.Length);
-                //client2.Client.Shutdown(SocketShutdown.Send);
+                client2.Client.Shutdown(SocketShutdown.Send);
                 ns2.Close();
                 client2.Close();
             }
         }      
+
     }
 }

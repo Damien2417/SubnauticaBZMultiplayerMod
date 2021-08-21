@@ -1,7 +1,9 @@
-﻿using System;
+﻿using ServerSubnautica;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 
@@ -86,17 +88,10 @@ class Program
             {
                 break;
             }
-            string[] data2 = data.Split(new string[] { "WORLDPOSITION" }, StringSplitOptions.None);
-            foreach (var item in data2){
-                if (item.Length > 3){
-                    broadcast(id + "WORLDPOSITION" + item, id);
-                    Console.WriteLine(id + "WORLDPOSITION" + item);
-                }
-                
-            }
 
+            //Redirecting data received to right method
+            redirectCall(data,id);
 
-            //Console.WriteLine(data+" from id "+id);
             Thread.Sleep(8);
         }
 
@@ -140,6 +135,22 @@ class Program
                     stream.Write(buffer, 0, buffer.Length);
                 }
             }
+        }
+    }
+    public static void redirectCall(string data, int id)
+    {
+        string[] data2 = data.Split(new string[] { "/END/" }, StringSplitOptions.None);
+        foreach (var item in data2)
+        {
+            if (item.Contains(':'))
+            {
+                string[] param = item.Split(':');
+                Type type = typeof(MethodResponse);
+                MethodInfo method = type.GetMethod(param[0]);
+                MethodResponse c = new MethodResponse();
+                method.Invoke(c, new Object[] { id.ToString(), param[1] });
+            }
+
         }
     }
 }

@@ -1,18 +1,18 @@
-﻿using ClientSubnautica;
-using HarmonyLib;
+﻿using HarmonyLib;
+using SubnauticaModTest;
 using System;
-using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Net;
 using System.Net.Sockets;
-using System.Text;
+using System.Reflection;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UWE;
+using static Base;
 
-namespace SubnauticaModTest
+namespace SubnauticaMod
 {
     internal class ApplyPatches
     {
@@ -25,23 +25,19 @@ namespace SubnauticaModTest
         public static ConcurrentDictionary<int, GameObject> players = new ConcurrentDictionary<int, GameObject>();
         public static ConcurrentDictionary<int, string> lastPos = new ConcurrentDictionary<int, string>();
         public static ConcurrentDictionary<int, string> posLastLoop = new ConcurrentDictionary<int, string>();
+        public static TcpClient client = new TcpClient();
 
-        [HarmonyPatch(typeof(Player))]
-        [HarmonyPatch("Update")]
+        //[HarmonyPatch(typeof(Player))]
+        //[HarmonyPatch("Update")]
         internal static class Patches
         {
-
-            
-
-            [HarmonyPostfix]
+            //[HarmonyPostfix]
             public static void Postfix()
             {
-                
                 if (startMultiplayer)
                 {
-                    //Thread sender
-                    TcpClient client=new TcpClient();
-                    client = StartMultiplayer.main();
+                    //Thread sender                    
+                    client = StartMultiplayer.startServer();
                     bool isconnected = client.Connected;
                     startMultiplayer = !isconnected;
                     startedMultiplayer = isconnected;
@@ -56,71 +52,23 @@ namespace SubnauticaModTest
                         Thread threadSender = new Thread(o => StartMultiplayer.SendData((TcpClient)o));
                         threadSender.Start(client);
 
-                        //Thread position
-                        //Thread threadPosition = new Thread(o => StartMultiplayer.setPosPlayer((TcpClient)o));
-                        //threadPosition.Start(client);
                         threadStarted = true;
+
+                        //CoroutineTask<GameObject> request = CraftData.GetPrefabForTechTypeAsync(techType, true);
+                        GameObject test = new GameObject();
+                        CoroutineHost.StartCoroutine(Enumerable.SetupNewGameObject(TechType.BaseObservatory, returnValue =>
+                        {
+                            test = returnValue;
+                            test.transform.position = Player.main.transform.position;
+
+                        }));
                     }
                 }
 
                 if (threadStarted)
                 {
-                    lock (messages)
-                    {
-                        foreach (var message in messages)
-                        {
-                            if (message.Contains("NEWID:"))
-                            {
-                                //UnityEngine.Debug.Log("Ajout joueur, id: " + int.Parse(message.Split(new string[] { "NEWID:" }, StringSplitOptions.None)[1]));
-                                addPlayer(int.Parse(message.Split(new string[] { "NEWID:" }, StringSplitOptions.None)[1]));
-                                //ErrorMessage.AddMessage("Player "+ message.Split(new string[] { "NEWID:" }, StringSplitOptions.None)[1]+" joined !");
-                            }
-                            else if (message.Contains("WORLDPOSITION"))
-                            {
-                                int id = int.Parse(message.Split(new string[] { "WORLDPOSITION" }, StringSplitOptions.None)[0]);
-                                string pos = message.Split(new string[] { "WORLDPOSITION" }, StringSplitOptions.None)[1];
 
-                                lastPos[id] = pos;
-                                setPosPlayer(id, pos);
-                            }
-                            else if (message.Contains("ALLID:"))
-                            {
-                                //UnityEngine.Debug.Log("Liste joueurs");
-                                string ids = message.Split(new string[] { "ALLID:" }, StringSplitOptions.None)[1];
-                                string[] idArray = ids.Split('$');
-                                if (idArray.Length > 1)
-                                {
-                                    foreach (var id in idArray)
-                                    {
-                                        if (id.Length > 0)
-                                            addPlayer(int.Parse(id));
-                                    }
-
-                                    //UnityEngine.Debug.Log("Liste ajouté");
-                                }
-                            }
-                            else if (message.Contains("DISCONNECTED"))
-                            {
-                                try
-                                {
-
-                                    string id = message.Split(new string[] { "DISCONNECTED" }, StringSplitOptions.None)[0];
-                                    GameObject val;
-                                    string val2;
-                                    string val3;
-                                    GameObject.Destroy(players[int.Parse(id)]);
-
-                                    players.TryRemove(int.Parse(id), out val);
-                                    posLastLoop.TryRemove(int.Parse(id), out val2);
-                                    lastPos.TryRemove(int.Parse(id), out val3);
-                                    //ErrorMessage.AddMessage("Player "+id+" disconnected.");
-                                }
-                                catch
-                                { }
-                            }                         
-                        }
-                        messages.Clear();
-                    }
+                    manageReceivedData();
                 }
                     
             }
@@ -135,7 +83,7 @@ namespace SubnauticaModTest
                 players.TryAdd(id, UnityEngine.Object.Instantiate<GameObject>(body, pos, Quaternion.identity));
                 body.GetComponentInParent<Player>().staticHead.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
 
-                GameObject.Destroy(players[id].GetComponent<Animator>());
+                //GameObject.Destroy(players[id].GetComponent<Animator>());
                 
                 posLastLoop.TryAdd(id, "0");
                 lastPos.TryAdd(id, "0");
@@ -194,6 +142,114 @@ namespace SubnauticaModTest
                 }
 
                 
+            }
+
+            public static void manageReceivedData()
+            {
+                lock (messages)
+                {
+                    foreach (var message in messages)
+                    {
+                        if (message.Contains("NEWID:"))
+                        {
+                            //UnityEngine.Debug.Log("Ajout joueur, id: " + int.Parse(message.Split(new string[] { "NEWID:" }, StringSplitOptions.None)[1]));
+                            addPlayer(int.Parse(message.Split(new string[] { "NEWID:" }, StringSplitOptions.None)[1]));
+                            ErrorMessage.AddMessage("Player " + message.Split(new string[] { "NEWID:" }, StringSplitOptions.None)[1] + " joined !");
+                        }
+                        else if (message.Contains("WorldPosition:"))
+                        {
+                            int id = int.Parse(message.Split(new string[] { "WorldPosition:" }, StringSplitOptions.None)[0]);
+                            string pos = message.Split(new string[] { "WorldPosition:" }, StringSplitOptions.None)[1];
+
+                            lastPos[id] = pos;
+                            setPosPlayer(id, pos);
+                        }
+                        else if (message.Contains("ALLID:"))
+                        {
+                            //UnityEngine.Debug.Log("Liste joueurs");
+                            string ids = message.Split(new string[] { "ALLID:" }, StringSplitOptions.None)[1];
+                            string[] idArray = ids.Split('$');
+                            if (idArray.Length > 1)
+                            {
+                                foreach (var id in idArray)
+                                {
+                                    if (id.Length > 0)
+                                        addPlayer(int.Parse(id));
+                                }
+
+                                //UnityEngine.Debug.Log("Liste ajouté");
+                            }
+                        }
+                        else if (message.Contains("DISCONNECTED"))
+                        {
+                            try
+                            {
+                                string id = message.Split(new string[] { "DISCONNECTED" }, StringSplitOptions.None)[0];
+                                GameObject val;
+                                string val2;
+                                string val3;
+                                GameObject.Destroy(players[int.Parse(id)]);
+
+                                players.TryRemove(int.Parse(id), out val);
+                                posLastLoop.TryRemove(int.Parse(id), out val2);
+                                lastPos.TryRemove(int.Parse(id), out val3);
+                                ErrorMessage.AddMessage("Player " + id + " disconnected.");
+                            }
+                            catch
+                            { }
+                        }
+                        else if (message.Contains("SpawnPiece:"))
+                        {
+                            string data = message.Split(new string[] { "SpawnPiece:" }, StringSplitOptions.None)[1];
+                            data= data.Split(new string[] { "/END/" }, StringSplitOptions.None)[0];
+                            ErrorMessage.AddMessage("ajout prefab " + data);
+                        //SubnauticaModTest.SetupNewGameObject((TechType)Enum.Parse(typeof(TechType));
+                            
+                            //CoroutineTask<GameObject> request = CraftData.GetPrefabForTechTypeAsync((TechType)Enum.Parse(typeof(TechType), data), true);
+                            //GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(request.GetResult());
+                            //Builder.Begin((TechType)Enum.Parse(typeof(TechType), data), request.GetResult());
+                           
+                            //Builder.BeginAsync((TechType)Enum.Parse(typeof(TechType), data));
+                        /*
+
+                        string[] arr = data.Split('$');
+                        Base.Piece piece = (Base.Piece)Enum.Parse(typeof(Base.Piece), arr[0], true);
+                        Int3 cell = Int3.Parse(arr[1]);
+
+                        if (piece == Base.Piece.Invalid)
+                        {
+                            break;
+                        }
+                        Base baseObj = new Base();
+                        Transform transform = baseObj.GetCellObject(cell);
+                        if (transform == null)
+                        {
+                            transform = baseObj.CreateCellObject(cell);
+                        }
+                        Base.PieceDef pieceDef = Base.pieces[(int)piece];
+                        GameObject gameObject = this.InstantiateOrReuse(pieceDef.prefab.gameObject, transform, position, rotation, cell);
+                        if (faceDirection != null && piece == Base.Piece.CorridorBulkhead)
+                        {
+                            foreach (BaseWaterTransition baseWaterTransition in gameObject.GetComponentsInChildren<BaseWaterTransition>())
+                            {
+                                baseWaterTransition.face.cell = cell;
+                                baseWaterTransition.face.direction = faceDirection.Value;
+                            }
+                        }
+                        gameObject.SetActive(true);
+                        gameObject.BroadcastMessage("OnAddedToBase", this, SendMessageOptions.DontRequireReceiver);
+                        if (sourceBaseDeconstructable != null)
+                        {
+                            foreach (ConstructableBounds constructableBounds in gameObject.transform.GetComponentsInChildren<ConstructableBounds>())
+                            {
+                                sourceBaseDeconstructable.basePiecesBounds.Add(constructableBounds.bounds);
+                            }
+                        }
+                        return gameObject.transform*/
+                    }
+                }
+                    messages.Clear();
+                }
             }
         }
     }

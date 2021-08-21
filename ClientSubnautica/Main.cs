@@ -1,7 +1,7 @@
-﻿using ClientSubnautica;
-using HarmonyLib;
+﻿using HarmonyLib;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
+using SubnauticaMod;
 using System.Reflection;
 
 namespace SubnauticaModTest
