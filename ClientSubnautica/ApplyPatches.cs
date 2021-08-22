@@ -1,14 +1,10 @@
 ﻿using HarmonyLib;
-using ClientSubnautica;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Net.Sockets;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UWE;
 
 namespace ClientSubnautica
 {
