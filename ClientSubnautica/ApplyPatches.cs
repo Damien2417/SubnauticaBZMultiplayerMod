@@ -27,11 +27,10 @@ namespace SubnauticaMod
         public static ConcurrentDictionary<int, string> posLastLoop = new ConcurrentDictionary<int, string>();
         public static TcpClient client = new TcpClient();
 
-        //[HarmonyPatch(typeof(Player))]
-        //[HarmonyPatch("Update")]
+        [HarmonyPatch(typeof(Player),"Update")]
         internal static class Patches
         {
-            //[HarmonyPostfix]
+            [HarmonyPostfix]
             public static void Postfix()
             {
                 if (startMultiplayer)

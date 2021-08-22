@@ -5,10 +5,10 @@ namespace SubnauticaMod
 {
     internal class triggerOnSpawnPiece
     {
-        [HarmonyPatch(typeof(Builder), "Begin")]
+        //[HarmonyPatch(typeof(Builder), "Begin")]
         internal static class Patches
         {
-            [HarmonyPrefix]
+            //[HarmonyPrefix]
             public static void Prefix(TechType techType)
             {
                 ErrorMessage.AddMessage("envoi "+ techType.ToString());
