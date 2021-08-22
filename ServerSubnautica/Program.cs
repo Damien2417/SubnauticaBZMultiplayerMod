@@ -1,6 +1,9 @@
-﻿using ServerSubnautica;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using ServerSubnautica;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
@@ -11,15 +14,22 @@ class Program
 {
     static readonly object _lock = new object();
     static readonly Dictionary<int, TcpClient> list_clients = new Dictionary<int, TcpClient>();
-    static string ipAdress= "192.168.0.83";
-    static int port = 5000;
+
+
+
     static void Main(string[] args)
     {
+        string[] paths = { AppDomain.CurrentDomain.BaseDirectory, "config.json"};
+        string fullPath = Path.Combine(paths);
+
+        
+        string ipAddress = JObject.Parse(File.ReadAllText(fullPath))["ipAddress"].ToString();
+        int port = int.Parse(JObject.Parse(File.ReadAllText(fullPath))["port"].ToString());
         int count = 1;
-        IPAddress host = IPAddress.Parse(ipAdress);
+        IPAddress host = IPAddress.Parse(ipAddress);
         TcpListener ServerSocket = new TcpListener(host, port);
         ServerSocket.Start();
-        Console.WriteLine("Listening on "+ ipAdress+":"+port);
+        Console.WriteLine("Listening on "+ ipAddress + ":"+port);
 
         while (true)
         {
