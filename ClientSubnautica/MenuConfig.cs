@@ -10,13 +10,8 @@ namespace ClientSubnautica
 	[Menu("Multiplayer", SaveOn =MenuAttribute.SaveEvents.None)]
 	public class Config : ConfigFile
 	{
-        [Toggle("Enable multiplayer"), OnChange(nameof(MyCheckboxToggleEvent))]
-        public bool ToggleValue;
-
-        private void MyCheckboxToggleEvent(ToggleChangedEventArgs e)
-        {
-            ApplyPatches.startMultiplayer = e.Value;
-        }
+        public string ipAddress;
+        public string port;
 
     }
 }

@@ -14,16 +14,11 @@ namespace ClientSubnautica
 {
     internal class ApplyPatches
     {
-        // patches
-        public static bool startMultiplayer = false;
-        public static bool startedMultiplayer = false;
-        public static bool threadStarted = false;
+        // patches      
         public static List<String> messages = new List<String>();
-        //public static ConcurrentDictionary<int, string> messagesDic { get; set; }
         public static ConcurrentDictionary<int, GameObject> players = new ConcurrentDictionary<int, GameObject>();
         public static ConcurrentDictionary<int, string> lastPos = new ConcurrentDictionary<int, string>();
         public static ConcurrentDictionary<int, string> posLastLoop = new ConcurrentDictionary<int, string>();
-        public static TcpClient client = new TcpClient();
 
         [HarmonyPatch(typeof(Player),"Update")]
         internal static class Patches
@@ -31,40 +26,8 @@ namespace ClientSubnautica
             [HarmonyPostfix]
             public static void Postfix()
             {
-                if (startMultiplayer)
+                if (StartMultiplayer.threadStarted)
                 {
-                    //Thread sender                    
-                    client = StartMultiplayer.startServer();
-                    bool isconnected = client.Connected;
-                    startMultiplayer = !isconnected;
-                    startedMultiplayer = isconnected;
-                    NetworkStream ns = client.GetStream();
-                    if (!threadStarted)
-                    {
-                        //Thread receiver
-                        Thread threadReceiver = new Thread(o => StartMultiplayer.ReceiveData((TcpClient)o));
-                        threadReceiver.Start(client);
-
-                        //Thread sender
-                        Thread threadSender = new Thread(o => StartMultiplayer.SendData((TcpClient)o));
-                        threadSender.Start(client);
-
-                        threadStarted = true;
-
-                        //CoroutineTask<GameObject> request = CraftData.GetPrefabForTechTypeAsync(techType, true);
-                        /*GameObject test;
-                        CoroutineHost.StartCoroutine(Enumerable.SetupNewGameObject(TechType.BaseObservatory, returnValue =>
-                        {
-                            test = returnValue;
-                            test.transform.position = Player.main.transform.position;
-
-                        }));*/
-                    }
-                }
-
-                if (threadStarted)
-                {
-
                     manageReceivedData();
                 }
                     

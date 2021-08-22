@@ -8,7 +8,7 @@ namespace ClientSubnautica
     [QModCore]
     public static class MainPatcher
     {
-        internal static Config Config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
+        public static Config Config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
 
         [QModPatch]
         public static void Patch()

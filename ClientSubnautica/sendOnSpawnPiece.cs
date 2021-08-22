@@ -10,7 +10,7 @@ namespace ClientSubnautica
         {
             if (true)
             {
-                NetworkStream ns = ApplyPatches.client.GetStream();
+                NetworkStream ns = StartMultiplayer.client.GetStream();
 
                 byte[] msgresponse;
 
