@@ -19,4 +19,4 @@ Using:
 
 Open solution in Visual Studio, right click on SubnauticaMod solution and do regenerate. It will regenerate project and execute regeneration.bat which setup the mod DLL, start the server and subnautica
 
-Start any game of subnautica, at the end of loading you'll be placed in the server
+Start any game of subnautica and enable multiplayer in mod options
