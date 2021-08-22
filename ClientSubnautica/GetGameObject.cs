@@ -10,12 +10,14 @@ namespace ClientSubnautica
             CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(objectTechType,true);
             yield return task;
             GameObject gameObjectPrefab = task.GetResult();
-            GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(gameObjectPrefab);
+
+            Builder.BeginAsync(objectTechType);
+            //GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(gameObjectPrefab);
             //GameObject gameObject = global::Utils.CreatePrefab(gameObjectPrefab, 1, false);
             //LargeWorldEntity.Register(gameObject);
             //CrafterLogic.NotifyCraftEnd(gameObject, objectTechType);
            // gameObject.SendMessage("StartConstruction", 1);
-            if (callback != null) { callback.Invoke(gameObject); }
+            if (callback != null) { callback.Invoke(gameObjectPrefab); }
         }
     }
 }

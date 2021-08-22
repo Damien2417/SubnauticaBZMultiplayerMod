@@ -4,8 +4,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UWE;
 
 namespace ClientSubnautica
 {
@@ -14,8 +16,8 @@ namespace ClientSubnautica
         // patches      
         public static List<String> messages = new List<String>();
         public static ConcurrentDictionary<int, GameObject> players = new ConcurrentDictionary<int, GameObject>();
-        public static ConcurrentDictionary<int, string> lastPos = new ConcurrentDictionary<int, string>();
-        public static ConcurrentDictionary<int, string> posLastLoop = new ConcurrentDictionary<int, string>();
+        //public static ConcurrentDictionary<int, string> lastPos = new ConcurrentDictionary<int, string>();
+        //public static ConcurrentDictionary<int, string> posLastLoop = new ConcurrentDictionary<int, string>();
 
         [HarmonyPatch(typeof(Player),"Update")]
         internal static class Patches
@@ -23,13 +25,11 @@ namespace ClientSubnautica
             [HarmonyPostfix]
             public static void Postfix()
             {
-                if (StartMultiplayer.threadStarted)
+                if (MainMenuBegin.threadStarted)
                 {
-                    manageReceivedData();
-                }
-                    
+                    manageReceivedData();                    
+                }                   
             }
-
         }
             public static void addPlayer(int id)
             {
@@ -42,31 +42,31 @@ namespace ClientSubnautica
 
                 //GameObject.Destroy(players[id].GetComponent<Animator>());
                 
-                posLastLoop.TryAdd(id, "0");
-                lastPos.TryAdd(id, "0");
+                //posLastLoop.TryAdd(id, "0");
+                //lastPos.TryAdd(id, "0");
             }
 
             public static void setPosPlayer(int id,string data)
             {
                 string pos;
-            try
+                try
                 {               
-                    if (lastPos[id] != posLastLoop[id])
-                    {
-                        pos = lastPos[id].Split('(')[1];
-                        string x = pos.Split(';')[0];
-                        string y = pos.Split(';')[1];
-                        string z = pos.Split(';')[2];
-                        z = z.Substring(0, z.LastIndexOf(")"));
+                    //if (lastPos[id] != posLastLoop[id])
+                    //{
+                    pos = data.Split('(')[1];
+                    string x = pos.Split(';')[0];
+                    string y = pos.Split(';')[1];
+                    string z = pos.Split(';')[2];
+                    z = z.Substring(0, z.LastIndexOf(")"));
 
-                        float x2 = float.Parse(x.Replace(",", "."), CultureInfo.InvariantCulture);
-                        float y2 = float.Parse(y.Replace(",", "."), CultureInfo.InvariantCulture);
-                        float z2 = float.Parse(z.Replace(",", "."), CultureInfo.InvariantCulture);
-                        players[id].transform.position = new Vector3(x2, y2, z2);
+                    float x2 = float.Parse(x.Replace(",", "."), CultureInfo.InvariantCulture);
+                    float y2 = float.Parse(y.Replace(",", "."), CultureInfo.InvariantCulture);
+                    float z2 = float.Parse(z.Replace(",", "."), CultureInfo.InvariantCulture);
+                    players[id].transform.position = new Vector3(x2, y2, z2);
 
-                        posLastLoop[id] = lastPos[id];
+                //posLastLoop[id] = lastPos[id];
 
-                    }
+                //}                   
                 }
                 catch (Exception e)
                 {
@@ -89,7 +89,7 @@ namespace ClientSubnautica
                             string id = Char.ToString(param[0][0]);
                             string meth = param[0];
                             //remove id in first position to trigger right method
-                            if (meth.Contains("WorldPosition")| meth.Contains("Disconnected"))
+                            if (meth.Contains("WorldPosition")| meth.Contains("Disconnected") | meth.Contains("SpawnPiece"))
                                 meth=meth.Remove(0, 1);
 
                             Type type = typeof(MethodResponse);

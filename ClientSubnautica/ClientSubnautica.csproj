@@ -31,11 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="LoadMap.cs" />
+    <Compile Include="OnDrop.cs" />
     <Compile Include="MethodResponse.cs" />
     <Compile Include="StartMultiplayer.cs" />
-    <Compile Include="Class2.cs" />
+    <Compile Include="MainMenuBegin.cs" />
     <Compile Include="triggerOnSpawnPiece.cs" />
-    <Compile Include="sendOnSpawnPiece.cs" />
+    <Compile Include="SendOnSpawnPiece.cs" />
     <Compile Include="MenuConfig.cs" />
     <Compile Include="HandleMultiplayer.cs" />
     <Compile Include="Main.cs" />
@@ -66,6 +68,12 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Jeux\Subnautica Below Zero\SubnauticaZero_Data\Managed\UnityEngine.dll</HintPath>
@@ -89,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="generation.bat" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

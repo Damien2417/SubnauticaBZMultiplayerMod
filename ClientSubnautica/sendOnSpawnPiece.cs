@@ -3,13 +3,13 @@ using System.Text;
 
 namespace ClientSubnautica
 {
-    public class sendOnSpawnPiece
+    public class SendOnSpawnPiece
     {      
         public static void send(string techtype)
         {
             if (true)
             {
-                NetworkStream ns = StartMultiplayer.client.GetStream();
+                NetworkStream ns = MainMenuBegin.client.GetStream();
 
                 byte[] msgresponse;
 

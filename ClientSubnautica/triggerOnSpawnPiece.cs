@@ -1,18 +1,27 @@
 ﻿using HarmonyLib;
+using System;
 using UnityEngine;
+using UWE;
 
 namespace ClientSubnautica
 {
     internal class triggerOnSpawnPiece
     {
-        //[HarmonyPatch(typeof(Builder), "Begin")]
+        //[HarmonyPatch(typeof(CraftingAnalytics), "OnConstruct")]
         internal static class Patches
         {
-            //[HarmonyPrefix]
-            public static void Prefix(TechType techType)
+            //[HarmonyPostfix]
+            public static void Postfix(TechType techType, Vector3 position)
             {
-                ErrorMessage.AddMessage("envoi "+ techType.ToString());
-                sendOnSpawnPiece.send(techType.ToString());
+
+                GameObject test;
+                CoroutineHost.StartCoroutine(Enumerable.SetupNewGameObject((TechType)Enum.Parse(typeof(TechType), techType.ToString()), returnValue =>
+                {
+                    test = returnValue;
+                    test.transform.position = Player.main.transform.position;
+
+                }));
+                //SendOnSpawnPiece.send(techType.ToString());
             }
 
             /*public static void Postfix(Base.Piece piece, Int3 cell, Vector3 position, Quaternion rotation, Base.Direction? faceDirection = null, BaseDeconstructable sourceBaseDeconstructable = null)

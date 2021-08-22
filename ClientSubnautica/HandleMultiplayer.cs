@@ -24,14 +24,8 @@ namespace ClientSubnautica
             int port = int.Parse(MainPatcher.Config.port);
             TcpClient client = new TcpClient();
             
-            try
-            {
-                client.Connect(ip, port);
-                ErrorMessage.AddMessage("Connected on " + ip + ":" + port + " !");
-            }
-            catch {
-                ErrorMessage.AddMessage("Erreur de connexion");
-            }            
+            client.Connect(ip, port);
+            ErrorMessage.AddMessage("Connected on " + ip + ":" + port + " !");
             return client;
         }
 
@@ -96,7 +90,7 @@ namespace ClientSubnautica
                         z = pos.Split(';')[2];
                         z = z.Split(new string[] { ")/END/" }, StringSplitOptions.None)[0];
                     }
-                    Thread.Sleep(16);
+                    Thread.Sleep(5);
                 }
             }
             catch

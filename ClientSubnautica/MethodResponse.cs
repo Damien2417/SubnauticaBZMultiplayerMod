@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UWE;
 
 namespace ClientSubnautica
 {
@@ -11,8 +12,7 @@ namespace ClientSubnautica
     {
         public void WorldPosition(string id, string data)
         {
-            ErrorMessage.AddMessage(data);
-            ApplyPatches.lastPos[int.Parse(id)] = data;
+            //ApplyPatches.lastPos[int.Parse(id)] = data;
             ApplyPatches.setPosPlayer(int.Parse(id), data);
         }
 
@@ -36,14 +36,25 @@ namespace ClientSubnautica
         public void Disconnected(string id, string data)
         {
             GameObject val;
-            string val2;
-            string val3;
+            //string val2;
+            //string val3;
             GameObject.Destroy(ApplyPatches.players[int.Parse(id)]);
 
             ApplyPatches.players.TryRemove(int.Parse(id), out val);
-            ApplyPatches.posLastLoop.TryRemove(int.Parse(id), out val2);
-            ApplyPatches.lastPos.TryRemove(int.Parse(id), out val3);
+            //ApplyPatches.posLastLoop.TryRemove(int.Parse(id), out val2);
+            //ApplyPatches.lastPos.TryRemove(int.Parse(id), out val3);
             ErrorMessage.AddMessage("Player " + id + " disconnected.");
+        }
+
+        public void SpawnPiece(string id, string data)
+        {
+            GameObject test;
+            CoroutineHost.StartCoroutine(Enumerable.SetupNewGameObject((TechType)Enum.Parse(typeof(TechType), data), returnValue =>
+            {
+                test = returnValue;
+                test.transform.position = ApplyPatches.players[int.Parse(id)].transform.position;
+            }));
+
         }
     }
 }
