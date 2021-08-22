@@ -38,12 +38,12 @@ namespace ClientSubnautica
             }
         }
 
-        static void Postfix(ref IEnumerator __result)
+        static void Postfix(ref IEnumerator __result, uGUI_MainMenu __instance)
         {
             Action prefixAction = () => { };
             Action postfixAction = () =>
-            {
-                __result.StartMostRecentSaveOrNewGame();
+            {              
+                __instance.StartMostRecentSaveOrNewGame();
             };
             Action<object> preItemAction = (item) => { };
             Action<object> postItemAction = (item) => { };

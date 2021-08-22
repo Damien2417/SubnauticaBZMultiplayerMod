@@ -71,7 +71,7 @@ class Program
             }
             if (test)
             {
-                broadcast("NEWID:" + id,id);
+                broadcast("NewId:" + id,id);
                 string ids = "";
                 lock (_lock) {
                    
@@ -86,14 +86,14 @@ class Program
                 }
                 if (ids.Length>1)
                 {
-                    specialBroadcast("ALLID:" +ids,id);
+                    specialBroadcast("AllId:" +ids,id);
                 }
                 test = false;
             }
 
             string data = Encoding.ASCII.GetString(buffer, 0, byte_count);
             
-            if(data.Contains("DISCONNECTED"))
+            if(data.Contains("Disconnected:"))
             {
                 break;
             }
@@ -108,7 +108,7 @@ class Program
         Console.WriteLine("Someone deconnected, id: "+id);
         client.Client.Shutdown(SocketShutdown.Both);
         client.Close();
-        broadcast(id+"DISCONNECTED", id);
+        broadcast(id+ "Disconnected:", id);
     }
 
     public static void broadcast(string data, int id)

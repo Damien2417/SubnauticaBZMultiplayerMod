@@ -3,6 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -104,7 +105,26 @@ namespace ClientSubnautica
             {
                 lock (messages)
                 {
-                    foreach (var message in messages)
+                    foreach (var item in messages)
+                    {
+                        if (item.Contains(":"))
+                        {
+                            string[] param = item.Split(':');
+                            string id = Char.ToString(param[0][0]);
+                            string meth = param[0];
+                            if (meth.Contains("WorldPosition")| meth.Contains("Disconnected"))
+                                meth=meth.Remove(0, 1);
+
+                            Type type = typeof(MethodResponse);
+                            MethodInfo method = type.GetMethod(meth);
+                            MethodResponse c = new MethodResponse();
+                            method.Invoke(c, new System.Object[] { id, param[1] });
+                        }
+
+                    }
+
+
+                /*foreach (var message in messages)
                     {
                         if (message.Contains("NEWID:"))
                         {
@@ -202,8 +222,8 @@ namespace ClientSubnautica
                             }
                         }
                         return gameObject.transform*/
-                    }
-                }
+                    //}
+                //}
                     messages.Clear();
                 }
             }
