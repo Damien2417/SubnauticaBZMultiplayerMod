@@ -1,5 +1,4 @@
-﻿using SubnauticaModTest;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
@@ -7,7 +6,7 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 
-namespace SubnauticaMod
+namespace ClientSubnautica
 {
     internal class StartMultiplayer
     {

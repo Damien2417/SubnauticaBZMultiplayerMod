@@ -1,18 +1,16 @@
 ﻿using HarmonyLib;
-using SubnauticaModTest;
+using ClientSubnautica;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Sockets;
-using System.Reflection;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UWE;
-using static Base;
 
-namespace SubnauticaMod
+namespace ClientSubnautica
 {
     internal class ApplyPatches
     {
@@ -54,13 +52,13 @@ namespace SubnauticaMod
                         threadStarted = true;
 
                         //CoroutineTask<GameObject> request = CraftData.GetPrefabForTechTypeAsync(techType, true);
-                        GameObject test = new GameObject();
+                        /*GameObject test;
                         CoroutineHost.StartCoroutine(Enumerable.SetupNewGameObject(TechType.BaseObservatory, returnValue =>
                         {
                             test = returnValue;
                             test.transform.position = Player.main.transform.position;
 
-                        }));
+                        }));*/
                     }
                 }
 

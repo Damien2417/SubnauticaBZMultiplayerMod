@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using UnityEngine;
 
-namespace SubnauticaMod
+namespace ClientSubnautica
 {
     internal class triggerOnSpawnPiece
     {

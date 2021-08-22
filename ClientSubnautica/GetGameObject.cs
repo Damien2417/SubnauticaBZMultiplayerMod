@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace SubnauticaModTest
+namespace ClientSubnautica
 {
     public partial class Enumerable
     {
@@ -15,7 +15,6 @@ namespace SubnauticaModTest
             //LargeWorldEntity.Register(gameObject);
             //CrafterLogic.NotifyCraftEnd(gameObject, objectTechType);
            // gameObject.SendMessage("StartConstruction", 1);
-            yield return gameObject;
             if (callback != null) { callback.Invoke(gameObject); }
         }
     }

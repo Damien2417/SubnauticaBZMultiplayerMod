@@ -31,6 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Class2.cs" />
     <Compile Include="triggerOnSpawnPiece.cs" />
     <Compile Include="sendOnSpawnPiece.cs" />
     <Compile Include="MenuConfig.cs" />
@@ -63,9 +65,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="TCPAsynchronousClient">
-      <HintPath>E:\Téléchargements\subnautica modding\TCPAsynchronousClient.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Jeux\Subnautica Below Zero\SubnauticaZero_Data\Managed\UnityEngine.dll</HintPath>

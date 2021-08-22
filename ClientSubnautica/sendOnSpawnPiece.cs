@@ -2,7 +2,7 @@
 using System.Text;
 using UnityEngine;
 
-namespace SubnauticaMod
+namespace ClientSubnautica
 {
     public class sendOnSpawnPiece
     {      
@@ -10,7 +10,7 @@ namespace SubnauticaMod
         {
             if (true)
             {
-                NetworkStream ns = SubnauticaMod.ApplyPatches.client.GetStream();
+                NetworkStream ns = ApplyPatches.client.GetStream();
 
                 byte[] msgresponse;
 
