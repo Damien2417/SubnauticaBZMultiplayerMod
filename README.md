@@ -1,5 +1,5 @@
 # SubnauticaBZMultiplayerMod
-A multiplayer mod for Subnautica BZ
+A multiplayer mod for Subnautica Below Zero !
 
 Please do not forget to modify these before using:
 
