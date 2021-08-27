@@ -31,17 +31,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="LoadMap.cs" />
-    <Compile Include="OnDrop.cs" />
-    <Compile Include="MethodResponse.cs" />
-    <Compile Include="StartMultiplayer.cs" />
-    <Compile Include="MainMenuBegin.cs" />
-    <Compile Include="triggerOnSpawnPiece.cs" />
-    <Compile Include="SendOnSpawnPiece.cs" />
+    <Compile Include="ClientManager\FunctionToClient.cs" />
+    <Compile Include="MultiplayerManager\RedirectData.cs" />
+    <Compile Include="MultiplayerManager\ConnectToServer.cs" />
+    <Compile Include="MultiplayerManager\ReceiveData\ReceiveDataFromServer.cs" />
+    <Compile Include="MultiplayerManager\SendData\SendMyPos.cs" />
+    <Compile Include="StartMod\LoadMap.cs" />
+    <Compile Include="ClientManager\OnDrop.cs" />
+    <Compile Include="MultiplayerManager\FunctionManager.cs" />
+    <Compile Include="MultiplayerManager\SendData\StartSenderThread.cs" />
+    <Compile Include="StartMod\MainMenuBegin.cs" />
+    <Compile Include="ClientManager\triggerOnSpawnPiece.cs" />
+    <Compile Include="MultiplayerManager\SendData\SendOnSpawnPiece.cs" />
     <Compile Include="MenuConfig.cs" />
-    <Compile Include="HandleMultiplayer.cs" />
+    <Compile Include="MultiplayerManager\HandleMultiplayer.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="ApplyPatches.cs" />
     <Compile Include="GetGameObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -99,6 +103,7 @@
     <None Include="generation.bat" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>$(ProjectDir)generation.bat</PostBuildEvent>

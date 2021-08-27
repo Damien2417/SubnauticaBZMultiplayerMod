@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ClientSubnautica.ClientManager;
+using System;
 using UnityEngine;
 using UWE;
 
-namespace ClientSubnautica
+namespace ClientSubnautica.MultiplayerManager
 {
-    class MethodResponse
+    class FunctionManager
     {
         public void WorldPosition(string id, string data)
         {
             //ApplyPatches.lastPos[int.Parse(id)] = data;
-            ApplyPatches.setPosPlayer(int.Parse(id), data);
+            FunctionToClient.setPosPlayer(int.Parse(id), data);
         }
 
         public void NewId(string id, string data)
         {
-            ApplyPatches.addPlayer(int.Parse(data));
+            FunctionToClient.addPlayer(int.Parse(data));
             ErrorMessage.AddMessage("Player " + data + " joined !");
         }
         public void AllId(string id, string data)
@@ -29,7 +26,7 @@ namespace ClientSubnautica
                 foreach (var id2 in idArray)
                 {
                     if (id2.Length > 0)
-                        ApplyPatches.addPlayer(int.Parse(id2));
+                        FunctionToClient.addPlayer(int.Parse(id2));
                 }
             }
         }
@@ -38,9 +35,9 @@ namespace ClientSubnautica
             GameObject val;
             //string val2;
             //string val3;
-            GameObject.Destroy(ApplyPatches.players[int.Parse(id)]);
+            GameObject.Destroy(RedirectData.players[int.Parse(id)]);
 
-            ApplyPatches.players.TryRemove(int.Parse(id), out val);
+            RedirectData.players.TryRemove(int.Parse(id), out val);
             //ApplyPatches.posLastLoop.TryRemove(int.Parse(id), out val2);
             //ApplyPatches.lastPos.TryRemove(int.Parse(id), out val3);
             ErrorMessage.AddMessage("Player " + id + " disconnected.");
@@ -52,7 +49,7 @@ namespace ClientSubnautica
             CoroutineHost.StartCoroutine(Enumerable.SetupNewGameObject((TechType)Enum.Parse(typeof(TechType), data), returnValue =>
             {
                 test = returnValue;
-                test.transform.position = ApplyPatches.players[int.Parse(id)].transform.position;
+                test.transform.position = RedirectData.players[int.Parse(id)].transform.position;
             }));
 
         }

@@ -1,18 +1,16 @@
-﻿using ClientSubnautica;
+﻿using ClientSubnautica.MultiplayerManager;
+using ClientSubnautica.MultiplayerManager.ReceiveData;
 using HarmonyLib;
 using System;
 using System.Collections;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using UWE;
 
-namespace ClientSubnautica
+namespace ClientSubnautica.StartMod
 {
 
     // patches
@@ -48,7 +46,7 @@ namespace ClientSubnautica
         {
             Action prefixAction = () => {
                 //Thread sender                    
-                client = HandleMultiplayer.startServer();
+                client =ConnectToServer.start();
                 bool isconnected = client.Connected;
                 NetworkStream ns = client.GetStream();
                 byte[] receivedBytes = new byte[1024];
@@ -87,7 +85,7 @@ namespace ClientSubnautica
                         ns.Write(test, 0, test.Length);
 
                         //Thread receiver
-                        Thread threadReceiver = new Thread(o => HandleMultiplayer.ReceiveData((TcpClient)o));
+                        Thread threadReceiver = new Thread(o => ReceiveDataFromServer.start((TcpClient)o));
                         threadReceiver.Start(client);
 
                         threadStarted = true;

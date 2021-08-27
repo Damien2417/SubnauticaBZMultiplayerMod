@@ -1,9 +1,12 @@
-﻿using HarmonyLib;
+﻿using ClientSubnautica.MultiplayerManager.SendData;
+using ClientSubnautica.StartMod;
+using HarmonyLib;
 using System.Net.Sockets;
 using System.Threading;
-namespace ClientSubnautica
+
+namespace ClientSubnautica.MultiplayerManager
 {
-    class StartMultiplayer
+    class StartSenderThread
     {
         [HarmonyPatch(typeof(Player), "Awake")]
         internal static class Patches
@@ -12,7 +15,7 @@ namespace ClientSubnautica
             public static void Postfix()
             {
                 //Thread sender
-                Thread threadSender = new Thread(o => HandleMultiplayer.SendData((TcpClient)o));
+                Thread threadSender = new Thread(o => SendMyPos.start((TcpClient)o));
                 threadSender.Start(MainMenuBegin.client);              
             }
         }
