@@ -1,7 +1,7 @@
 ﻿using SMLHelper.V2.Json;
 using SMLHelper.V2.Options.Attributes;
 
-namespace ClientSubnautica
+namespace ClientSubnautica.Configs
 {
 	// Token: 0x0200000E RID: 14
 	[Menu("Multiplayer", SaveOn =MenuAttribute.SaveEvents.None)]

@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using ClientSubnautica.Configs;
+using HarmonyLib;
 using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
 using System;

@@ -43,10 +43,10 @@
     <Compile Include="StartMod\MainMenuBegin.cs" />
     <Compile Include="ClientManager\triggerOnSpawnPiece.cs" />
     <Compile Include="MultiplayerManager\SendData\SendOnSpawnPiece.cs" />
-    <Compile Include="MenuConfig.cs" />
+    <Compile Include="Configs\MenuConfig.cs" />
     <Compile Include="MultiplayerManager\HandleMultiplayer.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="GetGameObject.cs" />
+    <Compile Include="ClientManager\GetGameObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
