@@ -14,7 +14,10 @@ namespace ClientSubnautica.ClientManager
             GameObject body = GameObject.Find("player_view_female");
 
             body.GetComponentInParent<Player>().staticHead.shadowCastingMode = ShadowCastingMode.On;
-            RedirectData.players.TryAdd(id, UnityEngine.Object.Instantiate<GameObject>(body, pos, Quaternion.identity));
+            lock (RedirectData.m_lockPlayers)
+            {
+                RedirectData.players.TryAdd(id, UnityEngine.Object.Instantiate<GameObject>(body, pos, Quaternion.identity));
+            }
             body.GetComponentInParent<Player>().staticHead.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
 
             //GameObject.Destroy(players[id].GetComponent<Animator>());
@@ -39,8 +42,10 @@ namespace ClientSubnautica.ClientManager
                 float x2 = float.Parse(x.Replace(",", "."), CultureInfo.InvariantCulture);
                 float y2 = float.Parse(y.Replace(",", "."), CultureInfo.InvariantCulture);
                 float z2 = float.Parse(z.Replace(",", "."), CultureInfo.InvariantCulture);
-                RedirectData.players[id].transform.position = new Vector3(x2, y2, z2);
-
+                lock (RedirectData.m_lockPlayers)
+                {
+                    RedirectData.players[id].transform.position = new Vector3(x2, y2, z2);
+                }
                 //posLastLoop[id] = lastPos[id];
 
                 //}                   

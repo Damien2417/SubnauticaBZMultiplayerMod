@@ -13,13 +13,15 @@ namespace ClientSubnautica.MultiplayerManager
     {
         public static List<String> receivedRequestsQueue = new List<String>();
         public static ConcurrentDictionary<int, GameObject> players = new ConcurrentDictionary<int, GameObject>();
+        public static object m_lockRequests = new object();
+        public static object m_lockPlayers = new object();
 
         [HarmonyPostfix]
         public static void redirectOnFunctionManager()
         {
             if (MainMenuBegin.threadStarted)
             {
-                lock (receivedRequestsQueue)
+                lock (m_lockRequests)
                 {
                     foreach (var item in receivedRequestsQueue)
                     {
@@ -37,7 +39,6 @@ namespace ClientSubnautica.MultiplayerManager
                             FunctionManager c = new FunctionManager();
                             method.Invoke(c, new System.Object[] { id, param[1] });
                         }
-
                     }
                     receivedRequestsQueue.Clear();
                 }

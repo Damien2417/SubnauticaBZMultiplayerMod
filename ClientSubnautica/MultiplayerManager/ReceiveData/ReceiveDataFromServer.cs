@@ -18,7 +18,10 @@ namespace ClientSubnautica.MultiplayerManager.ReceiveData
                 while ((byte_count = ns2.Read(receivedBytes, 0, receivedBytes.Length)) > 0)
                 {
                     string message = Encoding.ASCII.GetString(receivedBytes, 0, byte_count);
-                    RedirectData.receivedRequestsQueue.Add(message);
+                    lock (RedirectData.m_lockRequests)
+                    {
+                        RedirectData.receivedRequestsQueue.Add(message);
+                    }
                     Thread.Sleep(16);
                 }
                 ns2.Close();

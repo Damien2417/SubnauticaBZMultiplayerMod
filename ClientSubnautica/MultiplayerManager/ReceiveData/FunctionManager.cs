@@ -15,6 +15,7 @@ namespace ClientSubnautica.MultiplayerManager
 
         public void NewId(string id, string data)
         {
+            UnityEngine.Debug.Log(data);
             FunctionToClient.addPlayer(int.Parse(data));
             ErrorMessage.AddMessage("Player " + data + " joined !");
         }
@@ -35,9 +36,12 @@ namespace ClientSubnautica.MultiplayerManager
             GameObject val;
             //string val2;
             //string val3;
-            GameObject.Destroy(RedirectData.players[int.Parse(id)]);
+            lock (RedirectData.m_lockPlayers)
+            {
+                GameObject.Destroy(RedirectData.players[int.Parse(id)]);
 
-            RedirectData.players.TryRemove(int.Parse(id), out val);
+                RedirectData.players.TryRemove(int.Parse(id), out val);
+            }
             //ApplyPatches.posLastLoop.TryRemove(int.Parse(id), out val2);
             //ApplyPatches.lastPos.TryRemove(int.Parse(id), out val3);
             ErrorMessage.AddMessage("Player " + id + " disconnected.");

@@ -44,7 +44,6 @@
     <Compile Include="ClientManager\triggerOnSpawnPiece.cs" />
     <Compile Include="MultiplayerManager\SendData\SendOnSpawnPiece.cs" />
     <Compile Include="Configs\MenuConfig.cs" />
-    <Compile Include="MultiplayerManager\HandleMultiplayer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="ClientManager\GetGameObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
