@@ -81,7 +81,11 @@ namespace ClientSubnautica.MultiplayerManager
             {
                 DayNightCycle.main.dayNightCycleChangedEvent.Trigger(true);
             }
-            ErrorMessage.AddMessage("time set !");
+        }
+
+        public void weather(string id, string data)
+        {
+            WeatherManager.main.
         }
     }
 }
