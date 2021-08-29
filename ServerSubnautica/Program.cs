@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
@@ -12,8 +13,8 @@ using System.Threading;
 
 class Program
 {
-    static readonly object _lock = new object();
-    static readonly Dictionary<int, TcpClient> list_clients = new Dictionary<int, TcpClient>();
+    public static readonly object _lock = new object();
+    public static readonly Dictionary<int, TcpClient> list_clients = new Dictionary<int, TcpClient>();
     static byte[] mapBytes;
     static string mapName;
 
@@ -108,6 +109,10 @@ class Program
         if (ids.Length > 1)
         {
             specialBroadcast("AllId:" + ids, id);
+            lock (_lock)
+            {
+                list_clients.First().Value.GetStream().Write(Encoding.ASCII.GetBytes("askTimePassed:"));
+            }
         }
     }
 

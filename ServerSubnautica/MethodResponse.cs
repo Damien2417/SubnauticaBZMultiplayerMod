@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Text;
 
 namespace ServerSubnautica
 {
@@ -14,6 +16,11 @@ namespace ServerSubnautica
         {
             Program.broadcast(id + "SpawnPiece:" + data, int.Parse(id));
             Console.WriteLine(id + "SpawnPiece:" + data);
+        }
+
+        public void timePassed(string id, string data)
+        {
+            Program.broadcast("timePassed:" + data, int.Parse(id));
         }
 
     }

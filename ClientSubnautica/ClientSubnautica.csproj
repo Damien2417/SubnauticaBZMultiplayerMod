@@ -35,6 +35,7 @@
     <Compile Include="MultiplayerManager\ReceiveData\RedirectData.cs" />
     <Compile Include="MultiplayerManager\ConnectToServer.cs" />
     <Compile Include="MultiplayerManager\ReceiveData\ReceiveDataFromServer.cs" />
+    <Compile Include="MultiplayerManager\SendData\SendTimePassed.cs" />
     <Compile Include="MultiplayerManager\SendData\SendMyPos.cs" />
     <Compile Include="StartMod\LoadMap.cs" />
     <Compile Include="ClientManager\OnDrop.cs" />
