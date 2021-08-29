@@ -67,15 +67,15 @@ namespace ClientSubnautica.MultiplayerManager
         {
             bool flag = DayNightCycle.main.IsDay();
             DayNightCycle.main.SetTimePassed(float.Parse(data));
-            float lightScalar = DayNightCycle.main.GetLightScalar();
+            /*float lightScalar = DayNightCycle.main.GetLightScalar();
             float value = Mathf.GammaToLinearSpace(DayNightCycle.main.GetLocalLightScalar());
             Shader.SetGlobalFloat(ShaderPropertyID._UweLightScalar, lightScalar);
             Shader.SetGlobalColor(ShaderPropertyID._AtmoColor, DayNightCycle.main.atmosphereColor.Evaluate(lightScalar));
             //Shader.SetGlobalFloat(ShaderPropertyID._UweAtmoLightFade, DayNightCycle.main.sunlight.fade);
             Shader.SetGlobalFloat(ShaderPropertyID._UweLocalLightScalar, value);
-            DayNightCycle.main.StopSkipTimeMode();
+            DayNightCycle.main.StopSkipTimeMode();*/
 
-            //AccessTools.Method(typeof(DayNightCycle), "UpdateAtmosphere").Invoke(this, new object[] { });
+            AccessTools.Method(typeof(DayNightCycle), "UpdateAtmosphere").Invoke(DayNightCycle.main, new object[] { });
 
             if (!flag)
             {
@@ -85,7 +85,6 @@ namespace ClientSubnautica.MultiplayerManager
 
         public void weather(string id, string data)
         {
-            WeatherManager.main.
         }
     }
 }
