@@ -20,3 +20,5 @@ Using:
 Open solution in Visual Studio, right click on SubnauticaMod solution and do regenerate. It will regenerate project and execute regeneration.bat which setup the mod DLL, start the server and subnautica
 
 Start any game of subnautica and you'll be placed in server
+
+https://discord.gg/Nr6nBdCUg2
