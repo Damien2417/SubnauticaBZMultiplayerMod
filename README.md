@@ -7,6 +7,7 @@ Please do not forget to modify these before using:
 
 -ip address to host the server in config.json file(server and client side)
 
+-fix dependencies path 
 
 
 Please install .NET Framework 4.7.2
