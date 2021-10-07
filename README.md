@@ -17,7 +17,7 @@ https://dotnet.microsoft.com/download/dotnet-framework/net472
 
 Please install .NET 5.0 and set it for the ServerSubnautica project.
 
-https://dotnet.microsoft.com/download/visual-studio-sdks?utm_source=getdotnetsdk&utm_medium=referral
+https://dotnet.microsoft.com/download/dotnet/5.0
 
 
 Using:
