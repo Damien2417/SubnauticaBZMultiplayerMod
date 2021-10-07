@@ -10,10 +10,14 @@ Please do not forget to modify these before using:
 -fix dependencies path 
 
 
-Please install .NET Framework 4.7.2
+Please install .NET Framework 4.7.2 and set it for the ClientSubnautica project.
 
 https://dotnet.microsoft.com/download/dotnet-framework/net472
 
+
+Please install .NET 5.0 and set it for the ServerSubnautica project.
+
+https://dotnet.microsoft.com/download/visual-studio-sdks?utm_source=getdotnetsdk&utm_medium=referral
 
 
 Using:
