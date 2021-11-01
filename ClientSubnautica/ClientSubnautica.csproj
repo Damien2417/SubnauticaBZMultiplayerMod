@@ -33,6 +33,7 @@
   <ItemGroup>
     <Compile Include="ClientManager\DisablePause.cs" />
     <Compile Include="ClientManager\FunctionToClient.cs" />
+    <Compile Include="MultiplayerManager\NetworkCMD.cs" />
     <Compile Include="MultiplayerManager\ReceiveData\RedirectData.cs" />
     <Compile Include="MultiplayerManager\ConnectToServer.cs" />
     <Compile Include="MultiplayerManager\ReceiveData\ReceiveDataFromServer.cs" />

@@ -1,4 +1,5 @@
-﻿using ClientSubnautica.StartMod;
+﻿using ClientSubnautica.MultiplayerManager.ReceiveData;
+using ClientSubnautica.StartMod;
 using System.Net.Sockets;
 using System.Text;
 
@@ -14,7 +15,7 @@ namespace ClientSubnautica
 
                 byte[] msgresponse;
 
-                msgresponse = Encoding.ASCII.GetBytes("SpawnPiece:" + techtype+ "/END/");
+                msgresponse = Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("SpawnPiece")+":"+techtype+"/END/");
 
                 ErrorMessage.AddMessage("sending "+techtype);
                 // Position envoyé !

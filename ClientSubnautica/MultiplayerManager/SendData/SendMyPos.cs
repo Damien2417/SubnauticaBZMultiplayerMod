@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClientSubnautica.MultiplayerManager.ReceiveData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -15,9 +16,6 @@ namespace ClientSubnautica.MultiplayerManager.SendData
             NetworkStream ns2 = client2.GetStream();
             try
             {
-                string data = null;
-
-                string pos;
                 string x = "";
                 string y = "";
                 string z = "";
@@ -31,25 +29,20 @@ namespace ClientSubnautica.MultiplayerManager.SendData
                         byte[] msgresponse = Encoding.ASCII.GetBytes("");
                         Array.Clear(msgresponse, 0, msgresponse.Length);
 
-                        msgresponse = Encoding.ASCII.GetBytes("WorldPosition:" + "(" + Player.main.transform.position.x + ";" + Player.main.transform.position.y + ";" + Player.main.transform.position.z +/*";"+rotx+";"+roty+";"+rotz+*/ ")/END/");
-
+                        msgresponse = Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("WorldPosition") +":" + Player.main.transform.position.x + ";" + Player.main.transform.position.y + ";" + Player.main.transform.position.z +/*";"+rotx+";"+roty+";"+rotz+*/ "/END/");
 
                         // Position envoyé !
                         ns2.Write(msgresponse, 0, msgresponse.Length);
-
-                        data = Encoding.ASCII.GetString(msgresponse, 0, msgresponse.Length);
-                        pos = data.Split('(')[1];
-                        x = pos.Split(';')[0];
-                        y = pos.Split(';')[1];
-                        z = pos.Split(';')[2];
-                        z = z.Split(new string[] { ")/END/" }, StringSplitOptions.None)[0];
+                        x = Player.main.transform.position.x.ToString();
+                        y = Player.main.transform.position.y.ToString();
+                        z = Player.main.transform.position.z.ToString();
                     }
-                    Thread.Sleep(5);
+                    Thread.Sleep(10);
                 }
             }
             catch
             {
-                byte[] test = Encoding.ASCII.GetBytes("DISCONNECTED");
+                byte[] test = Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("Disconnected") + ":/END/");
 
                 ns2.Write(test, 0, test.Length);
                 client2.Client.Shutdown(SocketShutdown.Send);

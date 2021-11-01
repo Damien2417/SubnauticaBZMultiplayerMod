@@ -1,4 +1,5 @@
-﻿using ClientSubnautica.StartMod;
+﻿using ClientSubnautica.MultiplayerManager.ReceiveData;
+using ClientSubnautica.StartMod;
 using System.Net.Sockets;
 using System.Text;
 
@@ -10,7 +11,7 @@ namespace ClientSubnautica.MultiplayerManager.SendData
         {
             NetworkStream ns = MainMenuBegin.client.GetStream();
             byte[] msgresponse;
-            msgresponse = Encoding.ASCII.GetBytes("timePassed:"+DayNightCycle.main.timePassedAsFloat.ToString());
+            msgresponse = Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("timePassed") + ":" + DayNightCycle.main.timePassedAsFloat.ToString()+"/END/");
             ns.Write(msgresponse, 0, msgresponse.Length);
             //ns.Close();
         }

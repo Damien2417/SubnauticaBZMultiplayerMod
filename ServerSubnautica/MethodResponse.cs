@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClientSubnautica.MultiplayerManager.ReceiveData;
+using System;
 using System.Linq;
 using System.Text;
 
@@ -6,21 +7,26 @@ namespace ServerSubnautica
 {
     class MethodResponse
     {
-        public void WorldPosition(string id,string data)
+        public void WorldPosition(string[] param)
         {
-            Program.broadcast(id + "WorldPosition:" + data, int.Parse(id));
-            Console.WriteLine(id + "WorldPosition:" + data);
+            Program.broadcast(NetworkCMD.getIdCMD("WorldPosition") + ":" + param[0] + ";" + param[1] + ";" + param[2] + ";" + param[3] + "/END/", int.Parse(param[0]));
+            Console.WriteLine("id: "+ param[0] + " at position: " + param[1]+";"+param[2]+";"+param[3]);
         }
 
-        public void SpawnPiece(string id, string data)
+        public void SpawnPiece(string[] param)
         {
-            Program.broadcast(id + "SpawnPiece:" + data, int.Parse(id));
-            Console.WriteLine(id + "SpawnPiece:" + data);
+            Program.broadcast(NetworkCMD.getIdCMD("SpawnPiece") + ":" + param[1]+"/END/", int.Parse(param[0]));
+            Console.WriteLine("spawnPiece:"+ param[1]);
         }
 
-        public void timePassed(string id, string data)
+        public void timePassed(string[] param)
         {
-            Program.broadcast("timePassed:" + data, int.Parse(id));
+            Program.broadcast(NetworkCMD.getIdCMD("timePassed") + ":" + param[1]+"/END/", int.Parse(param[0]));
+        }
+        
+        public void Disconnected(string[] param)
+        {
+            Program.broadcast(NetworkCMD.getIdCMD("Disconnected") + ":" + param[0]+"/END/", int.Parse(param[0]));
         }
 
     }

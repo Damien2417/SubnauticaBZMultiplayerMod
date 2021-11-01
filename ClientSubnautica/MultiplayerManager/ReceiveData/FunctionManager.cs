@@ -8,65 +8,61 @@ namespace ClientSubnautica.MultiplayerManager
 {
     class FunctionManager
     {
-        public void WorldPosition(string id, string data)
+        public void WorldPosition(string[] param)
         {
-            //ApplyPatches.lastPos[int.Parse(id)] = data;
-            FunctionToClient.setPosPlayer(int.Parse(id), data);
+            FunctionToClient.setPosPlayer(param);
         }
 
-        public void NewId(string id, string data)
+        public void NewId(string[] param)
         {
-            UnityEngine.Debug.Log(data);
-            FunctionToClient.addPlayer(int.Parse(data));
-            ErrorMessage.AddMessage("Player " + data + " joined !");
+            FunctionToClient.addPlayer(int.Parse(param[0]));
+            ErrorMessage.AddMessage("Player " + param[0] + " joined !");
         }
-        public void AllId(string id, string data)
+        public void AllId(string[] param)
         {
-            string[] idArray = data.Split('$');
-            if (idArray.Length > 1)
+            foreach (var id in param)
             {
-                foreach (var id2 in idArray)
+                if (id.Length > 0)
                 {
-                    if (id2.Length > 0)
-                        FunctionToClient.addPlayer(int.Parse(id2));
+                    FunctionToClient.addPlayer(int.Parse(id));
                 }
-            }
+            } 
         }
-        public void Disconnected(string id, string data)
+        public void Disconnected(string[] param)
         {
             GameObject val;
             //string val2;
             //string val3;
             lock (RedirectData.m_lockPlayers)
             {
-                GameObject.Destroy(RedirectData.players[int.Parse(id)]);
+                GameObject.Destroy(RedirectData.players[int.Parse(param[0])]);
 
-                RedirectData.players.TryRemove(int.Parse(id), out val);
+                RedirectData.players.TryRemove(int.Parse(param[0]), out val);
             }
             //ApplyPatches.posLastLoop.TryRemove(int.Parse(id), out val2);
             //ApplyPatches.lastPos.TryRemove(int.Parse(id), out val3);
-            ErrorMessage.AddMessage("Player " + id + " disconnected.");
+            ErrorMessage.AddMessage("Player " + param[0] + " disconnected.");
         }
 
-        public void SpawnPiece(string id, string data)
+        public void SpawnPiece(string[] param)
         {
             GameObject test;
-            CoroutineHost.StartCoroutine(Enumerable.SetupNewGameObject((TechType)Enum.Parse(typeof(TechType), data), returnValue =>
+            CoroutineHost.StartCoroutine(Enumerable.SetupNewGameObject((TechType)Enum.Parse(typeof(TechType), param[1]), returnValue =>
             {
                 test = returnValue;
-                test.transform.position = RedirectData.players[int.Parse(id)].transform.position;
+                test.transform.position = RedirectData.players[int.Parse(param[0])].transform.position;
             }));
 
         }
-        public void askTimePassed(string id, string data)
+        public void askTimePassed(string[] param)
         {
             SendData.SendTimePassed.send();
         }
 
-        public void timePassed(string id, string data)
+        public void timePassed(string[] param)
         {
             bool flag = DayNightCycle.main.IsDay();
-            DayNightCycle.main.SetTimePassed(float.Parse(data));
+            DayNightCycle.main.SetTimePassed(float.Parse(param[1]));
             /*float lightScalar = DayNightCycle.main.GetLightScalar();
             float value = Mathf.GammaToLinearSpace(DayNightCycle.main.GetLocalLightScalar());
             Shader.SetGlobalFloat(ShaderPropertyID._UweLightScalar, lightScalar);
@@ -83,7 +79,7 @@ namespace ClientSubnautica.MultiplayerManager
             }
         }
 
-        public void weather(string id, string data)
+        public void weather(string[] param)
         {
         }
     }

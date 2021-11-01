@@ -22,7 +22,6 @@ namespace ClientSubnautica.MultiplayerManager.ReceiveData
                     {
                         RedirectData.receivedRequestsQueue.Add(message);
                     }
-                    Thread.Sleep(16);
                 }
                 ns2.Close();
             }

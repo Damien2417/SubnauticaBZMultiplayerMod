@@ -1,4 +1,5 @@
-﻿using ClientSubnautica.StartMod;
+﻿using ClientSubnautica.MultiplayerManager.ReceiveData;
+using ClientSubnautica.StartMod;
 using HarmonyLib;
 using System;
 using System.Collections.Concurrent;
@@ -25,19 +26,26 @@ namespace ClientSubnautica.MultiplayerManager
                 {
                     foreach (var item in receivedRequestsQueue)
                     {
-                        if (item.Contains(":"))
+                        if (item.Contains("/END/"))
                         {
-                            string[] param = item.Split(':');
-                            string id = Char.ToString(param[0][0]);
-                            string meth = param[0];
-                            //remove id in first position to trigger right method
-                            if (meth.Contains("WorldPosition") | meth.Contains("Disconnected") | meth.Contains("SpawnPiece"))
-                                meth = meth.Remove(0, 1);
-
-                            Type type = typeof(FunctionManager);
-                            MethodInfo method = type.GetMethod(meth);
-                            FunctionManager c = new FunctionManager();
-                            method.Invoke(c, new System.Object[] { id, param[1] });
+                            string[] commands= item.Split(new string[] { "/END/" }, StringSplitOptions.None);
+                            foreach (var command in commands)
+                            {
+                                try
+                                {
+                                    if (command.Length > 1)
+                                    {
+                                        string idCMD = command.Split(':')[0];
+                                        string[] param;
+                                        param = command.Substring(command.IndexOf(":") + 1).Split(';');
+                                        Type type = typeof(FunctionManager);
+                                        MethodInfo method = type.GetMethod(NetworkCMD.Translate(idCMD));
+                                        FunctionManager c = new FunctionManager();
+                                        method.Invoke(c, new System.Object[] { param });
+                                    }
+                                }
+                                catch { }
+                            }
                         }
                     }
                     receivedRequestsQueue.Clear();

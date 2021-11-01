@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using ClientSubnautica.MultiplayerManager.ReceiveData;
+using Newtonsoft.Json.Linq;
 using ServerSubnautica;
 using System;
 using System.Collections.Generic;
@@ -92,7 +93,7 @@ class Program
 
         byte[] buffer2 = new byte[1024];
         stream.Read(buffer2, 0, buffer2.Length);
-        broadcast("NewId:" + id, id);
+        broadcast(NetworkCMD.getIdCMD("NewId") + ":" + id +"/END/", id);
         string ids = "";
         lock (_lock)
         {
@@ -101,17 +102,17 @@ class Program
             {
                 if (item.Key != id)
                 {
-                    ids += item.Key + "$";
+                    ids += item.Key + ";";
                 }
 
             }
         }
         if (ids.Length > 1)
         {
-            specialBroadcast("AllId:" + ids, id);
+            specialBroadcast(NetworkCMD.getIdCMD("AllId") +":" + ids + "/END/", id);
             lock (_lock)
             {
-                list_clients.First().Value.GetStream().Write(Encoding.ASCII.GetBytes("askTimePassed:"));
+                list_clients.First().Value.GetStream().Write(Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("GetTimePassed")+"/END/"));
             }
         }
     }
@@ -125,7 +126,8 @@ class Program
         NetworkStream stream = client.GetStream();
         firstLoop(stream, id);
         while (true)
-        {            
+        {     
+            int cont = 1;
             byte[] buffer = new byte[1024];
             //Array.Clear(buffer, 0, buffer.Length);
             int byte_count;
@@ -133,23 +135,43 @@ class Program
             byte_count = stream.Read(buffer, 0, buffer.Length);
             
             string data = Encoding.ASCII.GetString(buffer, 0, byte_count);
-            
-            if(data.Contains("Disconnected:"))
+            if (!data.Contains("/END/"))
+                continue;
+
+            string[] commands = data.Split(new string[] { "/END/" }, StringSplitOptions.None);
+            foreach (var command in commands)
             {
-                break;
+                if (command.Length <= 1)
+                    continue;
+                try
+                {
+                    string idCMD = command.Split(':')[0];
+                    if (idCMD == NetworkCMD.getIdCMD("Disconnected"))
+                    {
+                        cont = 0;
+                        break;
+                    }
+
+                    var tempList = command.Substring(command.IndexOf(":") + 1).Split(';').ToList();
+                    if (idCMD != NetworkCMD.getIdCMD("Disconnected"))
+                        tempList.Insert(0, id.ToString());
+                    string[] param = tempList.ToArray();
+                    
+                    //Redirecting data received to right method
+                    redirectCall(param, idCMD);
+                }
+                catch (Exception) { }
             }
-
-            //Redirecting data received to right method
-            redirectCall(data,id);
-
-            Thread.Sleep(8);
+            if (cont == 0)
+                break;
+            
         }
 
         lock (_lock) list_clients.Remove(id);
         Console.WriteLine("Someone deconnected, id: "+id);
         client.Client.Shutdown(SocketShutdown.Both);
         client.Close();
-        broadcast(id+ "Disconnected:", id);
+        redirectCall(new string[] {id.ToString()}, NetworkCMD.getIdCMD("Disconnected"));
     }
 
     public static void broadcast(string data, int id)
@@ -186,21 +208,16 @@ class Program
             }
         }
     }
-    public static void redirectCall(string data, int id)
+    public static void redirectCall(string[] param, string id)
     {
-        string[] data2 = data.Split(new string[] { "/END/" }, StringSplitOptions.None);
-        foreach (var item in data2)
+        try
         {
-            if (item.Contains(':'))
-            {
-                string[] param = item.Split(':');
-                Type type = typeof(MethodResponse);
-                MethodInfo method = type.GetMethod(param[0]);
-                MethodResponse c = new MethodResponse();
-                method.Invoke(c, new Object[] { id.ToString(), param[1] });
-            }
-
+            Type type = typeof(MethodResponse);
+            MethodInfo method = type.GetMethod(NetworkCMD.Translate(id));
+            MethodResponse c = new MethodResponse();
+            method.Invoke(c, new System.Object[] { param });
         }
+        catch (Exception) { }
     }
     public static bool zipFile(string folderName)
     {
