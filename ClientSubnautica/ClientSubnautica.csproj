@@ -39,11 +39,11 @@
     <Compile Include="MultiplayerManager\ReceiveData\ReceiveDataFromServer.cs" />
     <Compile Include="MultiplayerManager\SendData\SendTimePassed.cs" />
     <Compile Include="MultiplayerManager\SendData\SendMyPos.cs" />
+    <Compile Include="StartMod\MainMenuBegin.cs" />
     <Compile Include="StartMod\LoadMap.cs" />
     <Compile Include="ClientManager\OnDrop.cs" />
     <Compile Include="MultiplayerManager\ReceiveData\FunctionManager.cs" />
     <Compile Include="MultiplayerManager\SendData\StartSenderThread.cs" />
-    <Compile Include="StartMod\MainMenuBegin.cs" />
     <Compile Include="ClientManager\triggerOnSpawnPiece.cs" />
     <Compile Include="MultiplayerManager\SendData\SendOnSpawnPiece.cs" />
     <Compile Include="Configs\MenuConfig.cs" />
@@ -100,14 +100,23 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Jeux\Subnautica Below Zero\SubnauticaZero_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\..\..\Program Files (x86)\Jeux\Subnautica Below Zero\SubnauticaZero_Data\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="generation.bat" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>$(ProjectDir)generation.bat</PostBuildEvent>
+    <PostBuildEvent>copy /Y "$(SolutionDir)ClientSubnautica\$(OutDir)ClientSubnautica.dll" "$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod\ClientSubnautica.dll"
+
+start "" "$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.exe
+start "" "$(SubnauticaRootPath)\SubnauticaZero.exe"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>

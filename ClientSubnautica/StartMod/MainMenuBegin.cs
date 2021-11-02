@@ -46,17 +46,17 @@ namespace ClientSubnautica.StartMod
         {
             Action prefixAction = () => {
                 //Thread sender                    
-                client =ConnectToServer.start();
+                client = ConnectToServer.start();
                 bool isconnected = client.Connected;
                 NetworkStream ns = client.GetStream();
                 byte[] receivedBytes = new byte[1024];
 
                 ErrorMessage.AddMessage("Downloading map... 0%");
-                byte[] data=downloadMap(ns);
+                byte[] data = downloadMap(ns);
                 ErrorMessage.AddMessage("Downloading map... 100%");
 
                 string outDirectoryPath = importMap(data);
-                
+
                 ErrorMessage.AddMessage("Map downloaded !");
 
 
@@ -66,17 +66,17 @@ namespace ClientSubnautica.StartMod
                 byte_count = ns.Read(receivedBytes2, 0, receivedBytes2.Length);
 
                 string message2 = Encoding.ASCII.GetString(receivedBytes2, 0, byte_count);
-                string[] arr=message2.Split('$');
+                string[] arr = message2.Split('$');
 
                 if (arr != null)
                 {
-                    GameMode gm=new GameMode();
+                    GameMode gm = new GameMode();
                     if (arr[2] == "0")
-                    {                      
+                    {
                         gm = GameMode.Survival;
                     }
                     ErrorMessage.AddMessage("Loading map ...");
-                    CoroutineHost.StartCoroutine(LoadMap.loadMap(__instance, outDirectoryPath,arr[0],arr[1],gm,arr[3], returnValue =>
+                    CoroutineHost.StartCoroutine(LoadMap.loadMap(__instance, outDirectoryPath, arr[0], arr[1], gm, arr[3], returnValue =>
                     {
 
 
@@ -147,14 +147,14 @@ namespace ClientSubnautica.StartMod
             string outDirectoryPath = Path.Combine(outPath);
             if (Directory.Exists(outDirectoryPath))
                 Directory.Delete(outDirectoryPath, true);
-            
+
             Directory.CreateDirectory(outDirectoryPath);
             string[] outPath2 = { outDirectoryPath, "world.zip" };
             string outZipPath = Path.Combine(outPath2);
             File.WriteAllBytes(outZipPath, data);
             ZipFile.ExtractToDirectory(outZipPath, outDirectoryPath);
             File.Delete(outZipPath);
-            
+
             return outDirectoryPath;
         }
     }

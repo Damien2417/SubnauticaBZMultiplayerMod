@@ -11,7 +11,7 @@ namespace ClientSubnautica
         {
             if (true)
             {
-                NetworkStream ns = MainMenuBegin.client.GetStream();
+                NetworkStream ns = StartMultiplayer.client.GetStream();
 
                 byte[] msgresponse;
 

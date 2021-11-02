@@ -20,7 +20,7 @@ namespace ClientSubnautica.MultiplayerManager
         [HarmonyPostfix]
         public static void redirectOnFunctionManager()
         {
-            if (MainMenuBegin.threadStarted)
+            if (StartMultiplayer.threadStarted)
             {
                 lock (m_lockRequests)
                 {
