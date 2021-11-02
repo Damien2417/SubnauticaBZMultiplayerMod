@@ -3,7 +3,7 @@ A multiplayer mod for Subnautica Below Zero !
 
 Please do not forget to modify these before using:
 
--"generation.bat" file paths
+-"Directory.Build.props" subnautica path.
 
 -ip address to host the server in config.json file(server and client side)
 
@@ -22,7 +22,7 @@ https://dotnet.microsoft.com/download/dotnet/5.0
 
 Using:
 
-Open solution in Visual Studio, right click on SubnauticaMod solution and do regenerate. It will regenerate project and execute regeneration.bat which setup the mod DLL, start the server and subnautica
+Open solution in Visual Studio and build the whole project. It will build project, setup the mod DLL, start the server and subnautica
 
 Start any game of subnautica and you'll be placed in server
 
