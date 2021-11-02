@@ -14,7 +14,7 @@ namespace ClientSubnautica.ClientManager
             [HarmonyPostfix]
             static void Postfix(Pickupable pickupable)
             {
-                NetworkStream ns2 = StartMultiplayer.client.GetStream();
+                NetworkStream ns2 = MainMenuBegin.client.GetStream();
                 
                 byte[] msgresponse = Encoding.ASCII.GetBytes("");
                 Array.Clear(msgresponse, 0, msgresponse.Length);
