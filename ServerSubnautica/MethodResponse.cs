@@ -15,9 +15,16 @@ namespace ServerSubnautica
 
         public void SpawnPiece(string[] param)
         {
-            Program.broadcast(NetworkCMD.getIdCMD("SpawnPiece") + ":" + param[1]+"/END/", int.Parse(param[0]));
+            Program.broadcast(NetworkCMD.getIdCMD("SpawnPiece") + ":" + param[0] + ";" + param[1] + ";" + param[2] + "/END/", int.Parse(param[0]));
             Console.WriteLine("spawnPiece:"+ param[1]);
         }
+        
+        public void PickupPiece(string[] param)
+        {
+            Program.broadcast(NetworkCMD.getIdCMD("PickupPiece") + ":" + param[0] + ";" + param[1]+"/END/", int.Parse(param[0]));
+            Console.WriteLine("pickupPiece:"+ param[1]);
+        }
+
 
         public void timePassed(string[] param)
         {

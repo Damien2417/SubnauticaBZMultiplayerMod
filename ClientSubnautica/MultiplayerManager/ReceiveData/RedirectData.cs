@@ -44,7 +44,9 @@ namespace ClientSubnautica.MultiplayerManager
                                         method.Invoke(c, new System.Object[] { param });
                                     }
                                 }
-                                catch { }
+                                catch (Exception e) {
+                                    Console.WriteLine(e.Message);
+                                }
                             }
                         }
                     }

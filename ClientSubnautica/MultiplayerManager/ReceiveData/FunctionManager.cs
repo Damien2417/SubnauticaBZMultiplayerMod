@@ -46,14 +46,29 @@ namespace ClientSubnautica.MultiplayerManager
 
         public void SpawnPiece(string[] param)
         {
-            GameObject test;
-            CoroutineHost.StartCoroutine(Enumerable.SetupNewGameObject((TechType)Enum.Parse(typeof(TechType), param[1]), returnValue =>
+            CoroutineHost.StartCoroutine(Enumerable.SetupNewGameObject((TechType)Enum.Parse(typeof(TechType), param[1]), RedirectData.players[int.Parse(param[0])].transform.position, param[2], returnValue =>
             {
-                test = returnValue;
-                test.transform.position = RedirectData.players[int.Parse(param[0])].transform.position;
             }));
 
         }
+
+        public void PickupPiece(string[] param)
+        {
+             GameObject[] firstList = GameObject.FindObjectsOfType<GameObject>();
+            foreach (var item in firstList)
+            {
+                if(item.GetComponent<UniqueGuid>() != null)
+                {
+                    if (item.GetComponent<UniqueGuid>().guid == param[1])
+                    {
+                        UnityEngine.Object.Destroy(item);
+                        break;
+                    }
+                }
+            }
+
+        }
+
         public void askTimePassed(string[] param)
         {
             SendData.SendTimePassed.send();

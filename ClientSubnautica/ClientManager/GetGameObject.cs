@@ -1,22 +1,30 @@
-﻿using System.Collections;
+﻿using ClientSubnautica.ClientManager;
+using System.Collections;
 using UnityEngine;
 
 namespace ClientSubnautica
 {
     public partial class Enumerable
     {
-        public static IEnumerator SetupNewGameObject(TechType objectTechType, System.Action<GameObject> callback = null)
+        public static IEnumerator SetupNewGameObject(TechType objectTechType, Vector3 vector2, string guid, System.Action<GameObject> callback = null)
         {
             CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(objectTechType,true);
             yield return task;
             GameObject gameObjectPrefab = task.GetResult();
 
-            Builder.BeginAsync(objectTechType);
+            //Builder.BeginAsync(objectTechType);
             //GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(gameObjectPrefab);
-            //GameObject gameObject = global::Utils.CreatePrefab(gameObjectPrefab, 1, false);
-            //LargeWorldEntity.Register(gameObject);
-            //CrafterLogic.NotifyCraftEnd(gameObject, objectTechType);
-           // gameObject.SendMessage("StartConstruction", 1);
+
+            Vector3 toDirection = Vector3.up;
+			GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(gameObjectPrefab, vector2, Quaternion.FromToRotation(Vector3.up, toDirection));
+            gameObject.AddComponent<UniqueGuid>();
+            gameObject.GetComponent<UniqueGuid>().guid = guid;
+            gameObject.SetActive(true);
+
+
+			LargeWorldEntity.Register(gameObject);
+            CrafterLogic.NotifyCraftEnd(gameObject, objectTechType);
+            gameObject.SendMessage("StartConstruction", 1);
             if (callback != null) { callback.Invoke(gameObjectPrefab); }
         }
     }

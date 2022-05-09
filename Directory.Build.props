@@ -1,6 +1,6 @@
 <Project>
  <PropertyGroup>
 	<!-- Subnautica root path below -->
-   <SubnauticaRootPath>D:\Program Files (x86)\Jeux\Subnautica Below Zero</SubnauticaRootPath>
+   <SubnauticaRootPath>E:\Jeux\Subnautica Below Zero</SubnauticaRootPath>
  </PropertyGroup>
 </Project>

@@ -13,13 +13,13 @@ namespace ClientSubnautica
             public static void Postfix(TechType techType, Vector3 position)
             {
 
-                GameObject test;
+                /*GameObject test;
                 CoroutineHost.StartCoroutine(Enumerable.SetupNewGameObject((TechType)Enum.Parse(typeof(TechType), techType.ToString()), returnValue =>
                 {
                     test = returnValue;
                     test.transform.position = Player.main.transform.position;
 
-                }));
+                }));*/
                 //SendOnSpawnPiece.send(techType.ToString());
             }
 

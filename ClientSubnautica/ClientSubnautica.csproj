@@ -31,6 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ClientManager\OnPickup.cs" />
+    <Compile Include="ClientManager\UniqueGuid.cs" />
     <Compile Include="ClientManager\DisablePause.cs" />
     <Compile Include="ClientManager\FunctionToClient.cs" />
     <Compile Include="MultiplayerManager\NetworkCMD.cs" />
@@ -66,7 +68,7 @@
     </Reference>
     <Reference Include="QModInstaller, Version=4.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Jeux\Subnautica Below Zero\SubnauticaZero_Data\Managed\QModInstaller.dll</HintPath>
+      <HintPath>..\..\..\Jeux\Subnautica Below Zero\BepInEx\plugins\QModManager\QModInstaller.dll</HintPath>
     </Reference>
     <Reference Include="SMLHelper, Version=2.11.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
