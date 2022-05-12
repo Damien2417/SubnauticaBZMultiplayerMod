@@ -1,7 +1,6 @@
 ﻿using ClientSubnautica.MultiplayerManager;
 using System;
 using System.Globalization;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 

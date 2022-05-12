@@ -16,13 +16,7 @@ namespace ClientSubnautica.ClientManager
             {
                 if (pickupable.gameObject.GetComponent<UniqueGuid>() != null)
                 {
-                    NetworkStream ns2 = MainMenuBegin.client.GetStream();
-
-                    byte[] msgresponse = Encoding.ASCII.GetBytes("");
-                    Array.Clear(msgresponse, 0, msgresponse.Length);
-                    msgresponse = Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("PickupPiece") + ":" + pickupable.gameObject.GetComponent<UniqueGuid>().guid + "/END/");
-                    // Position envoyé !
-                    ns2.Write(msgresponse, 0, msgresponse.Length);
+                    SendOnPickup.send(pickupable);
                 }
             }
         }

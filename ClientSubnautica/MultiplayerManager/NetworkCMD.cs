@@ -12,11 +12,12 @@ namespace ClientSubnautica.MultiplayerManager.ReceiveData
         {
             {"1", "WorldPosition"},
             {"2", "Disconnected"},
-            {"3", "SpawnPiece"},
+            {"3", "SpawnItem"},
             {"4", "NewId"},
             {"5", "AllId"},
             {"6", "GetTimePassed"},
-            {"7", "PickupPiece"}
+            {"7", "PickupItem"},
+            {"8", "SpawnBasePiece"}
         };
 
         public static string Translate(string idCMD)

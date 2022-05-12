@@ -13,18 +13,23 @@ namespace ServerSubnautica
             Console.WriteLine("id: "+ param[0] + " at position: " + param[1]+";"+param[2]+";"+param[3] + " rotation: "+ param[4] + ";" + param[5] + ";" + param[6] + ";" + param[7]);
         }
 
-        public void SpawnPiece(string[] param)
+        public void SpawnItem(string[] param)
         {
-            Program.broadcast(NetworkCMD.getIdCMD("SpawnPiece") + ":" + param[0] + ";" + param[1] + ";" + param[2] + "/END/", int.Parse(param[0]));
-            Console.WriteLine("spawnPiece:"+ param[1]);
+            Program.broadcast(NetworkCMD.getIdCMD("SpawnItem") + ":" + param[0] + ";" + param[1] + ";" + param[2] + "/END/", int.Parse(param[0]));
+            Console.WriteLine("spawnItem:"+ param[1]);
         }
         
-        public void PickupPiece(string[] param)
+        public void PickupItem(string[] param)
         {
-            Program.broadcast(NetworkCMD.getIdCMD("PickupPiece") + ":" + param[0] + ";" + param[1]+"/END/", int.Parse(param[0]));
-            Console.WriteLine("pickupPiece:"+ param[1]);
+            Program.broadcast(NetworkCMD.getIdCMD("PickupItem") + ":" + param[0] + ";" + param[1]+"/END/", int.Parse(param[0]));
+            Console.WriteLine("pickupItem:" + param[1]);
         }
 
+        public void SpawnBasePiece(string[] param)
+        {
+            Program.broadcast(NetworkCMD.getIdCMD("SpawnBasePiece") + ":" + param[0] + ";" + param[1] + ";" + param[2] + ";" + param[3] + ";" + param[4] + "/END/", int.Parse(param[0]));
+            Console.WriteLine("spawnBasePiece:" + param[1]);
+        }
 
         public void timePassed(string[] param)
         {

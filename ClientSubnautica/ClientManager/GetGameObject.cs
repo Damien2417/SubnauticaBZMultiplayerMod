@@ -11,7 +11,6 @@ namespace ClientSubnautica
             CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(objectTechType,true);
             yield return task;
             GameObject gameObjectPrefab = task.GetResult();
-
             //Builder.BeginAsync(objectTechType);
             //GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(gameObjectPrefab);
 

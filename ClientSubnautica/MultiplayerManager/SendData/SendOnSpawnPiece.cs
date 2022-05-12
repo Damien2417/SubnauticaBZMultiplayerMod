@@ -7,21 +7,18 @@ namespace ClientSubnautica
 {
     public class SendOnSpawnPiece
     {      
-        public static void send(string techtype)
+        public static void send(string techtype, string x, string y, string z)
         {
-            if (true)
-            {
-                NetworkStream ns = MainMenuBegin.client.GetStream();
+            NetworkStream ns = MainMenuBegin.client.GetStream();
 
-                byte[] msgresponse;
+            byte[] msgresponse;
+            
+            msgresponse = Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("SpawnBasePiece") + ":" + techtype + ";" + x + ";" + y + ";" + z +"/END/");
 
-                msgresponse = Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("SpawnPiece")+":"+techtype+"/END/");
-
-                ErrorMessage.AddMessage("sending "+techtype);
-                // Position envoyé !
-                ns.Write(msgresponse, 0, msgresponse.Length);
-                //ns.Close();
-            }
+            // Position envoyé !
+            ns.Write(msgresponse, 0, msgresponse.Length);
+            //ns.Close();
+            
         }
     }
 }

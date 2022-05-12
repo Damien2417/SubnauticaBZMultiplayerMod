@@ -1,6 +1,7 @@
 ﻿using ClientSubnautica.ClientManager;
 using HarmonyLib;
 using System;
+using System.Globalization;
 using UnityEngine;
 using UWE;
 
@@ -44,7 +45,7 @@ namespace ClientSubnautica.MultiplayerManager
             ErrorMessage.AddMessage("Player " + param[0] + " disconnected.");
         }
 
-        public void SpawnPiece(string[] param)
+        public void SpawnItem(string[] param)
         {
             CoroutineHost.StartCoroutine(Enumerable.SetupNewGameObject((TechType)Enum.Parse(typeof(TechType), param[1]), RedirectData.players[int.Parse(param[0])].transform.position, param[2], returnValue =>
             {
@@ -52,9 +53,9 @@ namespace ClientSubnautica.MultiplayerManager
 
         }
 
-        public void PickupPiece(string[] param)
+        public void PickupItem(string[] param)
         {
-             GameObject[] firstList = GameObject.FindObjectsOfType<GameObject>();
+            GameObject[] firstList = GameObject.FindObjectsOfType<GameObject>();
             foreach (var item in firstList)
             {
                 if(item.GetComponent<UniqueGuid>() != null)
@@ -66,6 +67,18 @@ namespace ClientSubnautica.MultiplayerManager
                     }
                 }
             }
+
+        }
+
+        public void SpawnBasePiece(string[] param)
+        {
+            float x = float.Parse(param[2].Replace(",", "."), CultureInfo.InvariantCulture);
+            float y = float.Parse(param[3].Replace(",", "."), CultureInfo.InvariantCulture);
+            float z = float.Parse(param[4].Replace(",", "."), CultureInfo.InvariantCulture);
+
+            CoroutineHost.StartCoroutine(Enumerable.SetupNewGameObject((TechType)Enum.Parse(typeof(TechType), param[1]), new Vector3(x,y,z), "randomguid", returnValue =>
+            {
+            }));
 
         }
 

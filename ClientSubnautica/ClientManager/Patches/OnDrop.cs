@@ -19,13 +19,7 @@ namespace ClientSubnautica.ClientManager
                 pickupable.gameObject.AddComponent<UniqueGuid>();
                 pickupable.gameObject.GetComponent<UniqueGuid>().guid = System.Guid.NewGuid().ToString();
 
-                NetworkStream ns2 = MainMenuBegin.client.GetStream();
-                
-                byte[] msgresponse = Encoding.ASCII.GetBytes("");
-                Array.Clear(msgresponse, 0, msgresponse.Length);
-                msgresponse = Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("SpawnPiece")+":" + pickupable.GetTechName() + ";" + pickupable.gameObject.GetComponent<UniqueGuid>().guid + "/END/");
-                // Position envoyé !
-                ns2.Write(msgresponse, 0, msgresponse.Length);
+                SendOnDrop.send(pickupable);
             }
         }
     }
