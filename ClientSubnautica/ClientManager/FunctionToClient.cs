@@ -38,15 +38,26 @@ namespace ClientSubnautica.ClientManager
                 string x = data[1];
                 string y = data[2];
                 string z = data[3];
+                
+                string x2 = data[4];
+                string y2 = data[5];
+                string z2 = data[6];
+                string w2 = data[7];
 
-                float x2 = float.Parse(x.Replace(",", "."), CultureInfo.InvariantCulture);
-                float y2 = float.Parse(y.Replace(",", "."), CultureInfo.InvariantCulture);
-                float z2 = float.Parse(z.Replace(",", "."), CultureInfo.InvariantCulture);
+                float xC = float.Parse(x.Replace(",", "."), CultureInfo.InvariantCulture);
+                float yC = float.Parse(y.Replace(",", "."), CultureInfo.InvariantCulture);
+                float zC = float.Parse(z.Replace(",", "."), CultureInfo.InvariantCulture);
+
+                float x2C = float.Parse(x2.Replace(",", "."), CultureInfo.InvariantCulture);
+                float y2C = float.Parse(y2.Replace(",", "."), CultureInfo.InvariantCulture);
+                float z2C = float.Parse(z2.Replace(",", "."), CultureInfo.InvariantCulture);
+                float w2C = float.Parse(w2.Replace(",", "."), CultureInfo.InvariantCulture);
 
                 
                 lock (RedirectData.m_lockPlayers)
                 {
-                    RedirectData.players[int.Parse(data[0])].transform.position = new Vector3(x2, y2, z2);
+                    RedirectData.players[int.Parse(data[0])].transform.position = new Vector3(xC, yC, zC);
+                    RedirectData.players[int.Parse(data[0])].transform.rotation = new Quaternion(x2C, y2C, z2C, w2C);
                 }
                 //posLastLoop[id] = lastPos[id];
 
