@@ -1,7 +1,5 @@
 ﻿using HarmonyLib;
-using System;
 using UnityEngine;
-using UWE;
 
 namespace ClientSubnautica
 {
