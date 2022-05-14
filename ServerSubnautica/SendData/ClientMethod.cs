@@ -46,9 +46,9 @@ namespace ServerSubnautica
         {
             try
             {
-                Type type = typeof(MethodResponse);
+                Type type = typeof(FunctionManager);
                 MethodInfo method = type.GetMethod(NetworkCMD.Translate(id));
-                MethodResponse c = new MethodResponse();
+                FunctionManager c = new FunctionManager();
                 method.Invoke(c, new System.Object[] { param });
             }
             catch (Exception) { }

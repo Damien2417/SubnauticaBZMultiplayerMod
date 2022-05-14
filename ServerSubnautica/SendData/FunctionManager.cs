@@ -3,7 +3,7 @@ using System;
 
 namespace ServerSubnautica
 {
-    class MethodResponse
+    class FunctionManager
     {
         ClientMethod client = new ClientMethod();
         public void WorldPosition(string[] param)
