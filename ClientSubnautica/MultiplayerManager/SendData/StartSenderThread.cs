@@ -16,7 +16,7 @@ namespace ClientSubnautica.MultiplayerManager
             {
                 //Thread sender
                 Thread threadSender = new Thread(o => SendMyPos.start((TcpClient)o));
-                threadSender.Start(MainMenuBegin.client);              
+                threadSender.Start(InitializeConnection.client);              
             }
         }
     }

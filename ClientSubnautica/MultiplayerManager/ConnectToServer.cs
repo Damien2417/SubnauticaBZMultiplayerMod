@@ -6,15 +6,15 @@ namespace ClientSubnautica.MultiplayerManager
     class ConnectToServer
     {
         //Connect to server
-        public static TcpClient start()
+        public static TcpClient start(string ip)
         {
-            ErrorMessage.AddMessage("Searching server...");
-            IPAddress ip = IPAddress.Parse(MainPatcher.Config.ipAddress);
-            int port = int.Parse(MainPatcher.Config.port);
+            string[] ipArray = ip.Split(':');
+
+            IPAddress ipDest = IPAddress.Parse(ipArray[0]);
+            int port = int.Parse(ipArray[1]);
             TcpClient client = new TcpClient();
 
-            client.Connect(ip, port);
-            ErrorMessage.AddMessage("Connected on " + ip + ":" + port + " !");
+            client.Connect(ipDest, port);
             return client;
         }
     }

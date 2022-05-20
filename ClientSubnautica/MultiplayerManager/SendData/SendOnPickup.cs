@@ -1,4 +1,5 @@
 ﻿using ClientSubnautica.ClientManager;
+using ClientSubnautica.MultiplayerManager;
 using ClientSubnautica.MultiplayerManager.ReceiveData;
 using ClientSubnautica.StartMod;
 using System;
@@ -11,7 +12,7 @@ namespace ClientSubnautica
     {      
         public static void send(Pickupable pickupable)
         {
-            NetworkStream ns2 = MainMenuBegin.client.GetStream();
+            NetworkStream ns2 = InitializeConnection.client.GetStream();
 
             byte[] msgresponse = Encoding.ASCII.GetBytes("");
             Array.Clear(msgresponse, 0, msgresponse.Length);

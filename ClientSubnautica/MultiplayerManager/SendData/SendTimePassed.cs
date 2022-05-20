@@ -9,7 +9,7 @@ namespace ClientSubnautica.MultiplayerManager.SendData
     {
         public static void send()
         {
-            NetworkStream ns = MainMenuBegin.client.GetStream();
+            NetworkStream ns = InitializeConnection.client.GetStream();
             byte[] msgresponse;
             msgresponse = Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("timePassed") + ":" + DayNightCycle.main.timePassedAsFloat.ToString()+"/END/");
             ns.Write(msgresponse, 0, msgresponse.Length);

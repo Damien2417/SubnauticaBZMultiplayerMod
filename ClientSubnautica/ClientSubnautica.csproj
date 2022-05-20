@@ -31,10 +31,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ClientManager\IpinputHandler.cs" />
+    <Compile Include="ClientManager\Patches\DisableMailSubscription.cs" />
     <Compile Include="ClientManager\Patches\OnPickup.cs" />
+    <Compile Include="ClientManager\Patches\AddMenuButton.cs" />
     <Compile Include="ClientManager\UniqueGuid.cs" />
     <Compile Include="ClientManager\Patches\DisablePause.cs" />
     <Compile Include="ClientManager\FunctionToClient.cs" />
+    <Compile Include="MultiplayerManager\InitializeConnection.cs" />
     <Compile Include="MultiplayerManager\NetworkCMD.cs" />
     <Compile Include="MultiplayerManager\ReceiveData\RedirectData.cs" />
     <Compile Include="MultiplayerManager\ConnectToServer.cs" />
@@ -84,6 +88,9 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>..\..\..\Jeux\Subnautica Below Zero\SubnauticaZero_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Jeux\Subnautica Below Zero\SubnauticaZero_Data\Managed\UnityEngine.dll</HintPath>
@@ -105,13 +112,12 @@
       <HintPath>E:\Jeux\Subnautica Below Zero\SubnauticaZero_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\..\Program Files (x86)\Jeux\Subnautica Below Zero\SubnauticaZero_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\..\..\Jeux\Subnautica Below Zero\SubnauticaZero_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /Y "$(SolutionDir)ClientSubnautica\$(OutDir)ClientSubnautica.dll" "$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod\ClientSubnautica.dll"

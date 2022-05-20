@@ -1,10 +1,4 @@
-﻿using ClientSubnautica.MultiplayerManager.ReceiveData;
-using ClientSubnautica.StartMod;
-using HarmonyLib;
-using System;
-using System.Net.Sockets;
-using System.Text;
-using UnityEngine;
+﻿using HarmonyLib;
 
 namespace ClientSubnautica.ClientManager
 {

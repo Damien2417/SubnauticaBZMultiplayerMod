@@ -1,4 +1,5 @@
-﻿using ClientSubnautica.MultiplayerManager.ReceiveData;
+﻿using ClientSubnautica.MultiplayerManager;
+using ClientSubnautica.MultiplayerManager.ReceiveData;
 using ClientSubnautica.StartMod;
 using System.Net.Sockets;
 using System.Text;
@@ -9,7 +10,7 @@ namespace ClientSubnautica
     {      
         public static void send(string techtype, string x, string y, string z)
         {
-            NetworkStream ns = MainMenuBegin.client.GetStream();
+            NetworkStream ns = InitializeConnection.client.GetStream();
 
             byte[] msgresponse;
             
