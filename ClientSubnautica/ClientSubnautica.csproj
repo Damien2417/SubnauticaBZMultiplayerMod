@@ -31,7 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ClientManager\IpinputHandler.cs" />
     <Compile Include="ClientManager\Patches\DisableMailSubscription.cs" />
     <Compile Include="ClientManager\Patches\OnPickup.cs" />
     <Compile Include="ClientManager\Patches\AddMenuButton.cs" />
