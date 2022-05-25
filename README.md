@@ -5,7 +5,7 @@ Please do not forget to modify these before using:
 
 -"Directory.Build.props" at the root of the mod, replace the path by your subnautica path.
 
--ip address to host the server in config.json file(server and client side)
+-ip address to host the server in config.json file
 
 -fix dependencies path 
 
