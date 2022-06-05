@@ -60,7 +60,7 @@ class Server
             Thread receiveThread = new Thread(new HandleClient(count).start);
             receiveThread.Start();
             count++;
-            Thread.Sleep(16);
+            Thread.Sleep(5);
         }
     }
 

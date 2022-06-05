@@ -103,6 +103,7 @@ namespace ClientSubnautica.MultiplayerManager
             string[] outPath = { MainPatcher.location, "SNAppData", "SavedGames", "MultiplayerSave" };
             if (PlatformServicesEpic.IsPresent())
             {
+                outPath[0] = Application.persistentDataPath;
                 outPath[1] = "SubnauticaZero";
             }
             string outDirectoryPath = Path.Combine(outPath);
