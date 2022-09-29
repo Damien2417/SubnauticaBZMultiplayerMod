@@ -52,18 +52,16 @@ namespace ClientSubnautica.MultiplayerManager
                 GameModePresetId gameMode = GameModePresetId.Survival;
                 switch (arr[2])
                 {
-                    case "0":
-                        break;
-                    
+                    /* 
                     case "1":
                         gameMode = GameModePresetId.Freedom;
                         break;
-                    
+                     
                     case "2":
                         gameMode = GameModePresetId.Hardcore;
                         break;
-                    
-                    case "3":
+                    */
+                    case "4":
                         gameMode = GameModePresetId.Creative;
                         break;
                 }
