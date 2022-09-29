@@ -46,7 +46,6 @@
     <Compile Include="MultiplayerManager\SendData\SendOnDrop.cs" />
     <Compile Include="MultiplayerManager\SendData\SendTimePassed.cs" />
     <Compile Include="MultiplayerManager\SendData\SendMyPos.cs" />
-    <Compile Include="StartMod\MainMenuBegin.cs" />
     <Compile Include="StartMod\LoadMap.cs" />
     <Compile Include="ClientManager\Patches\OnDrop.cs" />
     <Compile Include="MultiplayerManager\ReceiveData\FunctionManager.cs" />
