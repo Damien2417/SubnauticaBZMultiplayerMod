@@ -7,6 +7,7 @@ using System.IO.Compression;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using ServerSubnautica.Database;
 
 class Server
 {
@@ -24,7 +25,8 @@ class Server
     {
         Server server = new Server();
         configParams = server.loadParam(configPath);
-        
+
+        Dao.CreateConnection();
 
         mapName = configParams["MapFolderName"].ToString();
         gameInfoPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, mapName, "gameinfo.json");
