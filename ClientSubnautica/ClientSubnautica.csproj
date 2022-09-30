@@ -34,6 +34,7 @@
     <Compile Include="ClientManager\Patches\DisableMailSubscription.cs" />
     <Compile Include="ClientManager\Patches\OnPickup.cs" />
     <Compile Include="ClientManager\Patches\AddMenuButton.cs" />
+    <Compile Include="ClientManager\Patches\OnSaveGame.cs" />
     <Compile Include="ClientManager\UniqueGuid.cs" />
     <Compile Include="ClientManager\Patches\DisablePause.cs" />
     <Compile Include="ClientManager\FunctionToClient.cs" />
@@ -44,6 +45,7 @@
     <Compile Include="MultiplayerManager\ReceiveData\ReceiveDataFromServer.cs" />
     <Compile Include="MultiplayerManager\SendData\SendOnPickup.cs" />
     <Compile Include="MultiplayerManager\SendData\SendOnDrop.cs" />
+    <Compile Include="MultiplayerManager\SendData\SendOnSaveGame.cs" />
     <Compile Include="MultiplayerManager\SendData\SendTimePassed.cs" />
     <Compile Include="MultiplayerManager\SendData\SendMyPos.cs" />
     <Compile Include="StartMod\LoadMap.cs" />
