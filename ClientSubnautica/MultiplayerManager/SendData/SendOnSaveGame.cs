@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
 using ClientSubnautica.MultiplayerManager.ReceiveData;
 using UnityEngine;
 
@@ -10,6 +9,11 @@ namespace ClientSubnautica.MultiplayerManager.SendData
     public class SendOnSaveGame
     {
         public static void SendPosition(Vector3 position)
+        {
+            bool saved = SendData(position);
+        }
+
+        private static bool SendData(Vector3 position)
         {
             NetworkStream ns2 = InitializeConnection.client.GetStream();
             try
@@ -42,27 +46,32 @@ namespace ClientSubnautica.MultiplayerManager.SendData
                     }
                     if (position.x.ToString() != x |
                         position.y.ToString() != y |
-                        position.z.ToString() != z | 
+                        position.z.ToString() != z |
                         rotxTemp != rotx | rotyTemp != roty |
                         rotzTemp != rotz | rotwTemp != rotw)
                     {
+                        rotx = rotxTemp;
+                        roty = rotyTemp;
+                        rotz = rotzTemp;
+                        rotw = rotwTemp;
                         byte[] msgresponse = Encoding.ASCII.GetBytes("");
                         Array.Clear(msgresponse, 0, msgresponse.Length);
 
-                        msgresponse = Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("SaveGameReq") + ":" +
+                        msgresponse = Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("SaveGameRequest") + ":" +
                                                               position.x + ";" +
                                                               position.y + ";" +
                                                               position.z + ";" + rotx + ";" +
                                                               roty + ";" + rotz + ";" + rotw + "/END/");
 
                         ns2.Write(msgresponse, 0, msgresponse.Length);
+                        return true;
                     }
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
+                return false;
             }
         }
     }
