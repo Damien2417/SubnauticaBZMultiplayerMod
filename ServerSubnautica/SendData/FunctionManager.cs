@@ -1,5 +1,6 @@
 ﻿using ClientSubnautica.MultiplayerManager.ReceiveData;
 using System;
+using ServerSubnautica.Database;
 
 namespace ServerSubnautica
 {
@@ -43,6 +44,7 @@ namespace ServerSubnautica
         public void SaveGameRequest(string[] param)
         {
             //client.broadcast(NetworkCMD.getIdCMD("SaveGameRequest") + ":" + param[0] + ":" + param[1] + ":" + param[2] + ":" + param[3] + ":" + param[4] + ":" + param[5] + ":" + param[6]+"/END/", int.Parse(param[0]));
+            Dao.SaveLocation(param[0], param[1], param[2], param[3]);
             Console.WriteLine("id: " + param[0] + " saving at position: " + param[1] + ";" + param[2] + ";" + param[3] + ";" + param[4] + ";" + param[5] + ";" + param[6] + ";" + param[7]);
         }
 
