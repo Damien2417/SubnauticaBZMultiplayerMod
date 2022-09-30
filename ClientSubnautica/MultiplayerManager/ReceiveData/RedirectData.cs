@@ -1,5 +1,4 @@
 ﻿using ClientSubnautica.MultiplayerManager.ReceiveData;
-using ClientSubnautica.StartMod;
 using HarmonyLib;
 using System;
 using System.Collections.Concurrent;

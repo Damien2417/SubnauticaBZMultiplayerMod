@@ -40,5 +40,11 @@ namespace ServerSubnautica
             client.broadcast(NetworkCMD.getIdCMD("Disconnected") + ":" + param[0]+"/END/", int.Parse(param[0]));
         }
 
+        public void SaveGameRequest(string[] param)
+        {
+            //client.broadcast(NetworkCMD.getIdCMD("SaveGameRequest") + ":" + param[0] + ":" + param[1] + ":" + param[2] + ":" + param[3] + ":" + param[4] + ":" + param[5] + ":" + param[6]+"/END/", int.Parse(param[0]));
+            Console.WriteLine("id: " + param[0] + " saving at position: " + param[1] + ";" + param[2] + ";" + param[3] + ";" + param[4] + ";" + param[5] + ";" + param[6] + ";" + param[7]);
+        }
+
     }
 }

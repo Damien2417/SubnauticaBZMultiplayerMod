@@ -48,13 +48,26 @@ namespace ClientSubnautica.MultiplayerManager
 
             if (arr != null)
             {
-                GameMode gm = new GameMode();
-                if (arr[2] == "0")
+
+                GameModePresetId gameMode = GameModePresetId.Survival;
+                switch (arr[2])
                 {
-                    gm = GameMode.Survival;
+                    /* 
+                    case "1":
+                        gameMode = GameModePresetId.Freedom;
+                        break;
+                     
+                    case "2":
+                        gameMode = GameModePresetId.Hardcore;
+                        break;
+                    */
+                    case "4":
+                        gameMode = GameModePresetId.Creative;
+                        break;
                 }
+
                 ErrorMessage.AddMessage("Loading map ...");
-                CoroutineHost.StartCoroutine(LoadMap.loadMap(uGUI_MainMenu.main, outDirectoryPath, arr[0], arr[1], gm, arr[3], returnValue =>
+                CoroutineHost.StartCoroutine(LoadMap.loadMap(uGUI_MainMenu.main, outDirectoryPath, arr[0], arr[1], gameMode, new GameOptions(),arr[3], returnValue =>
                     {
 
 
