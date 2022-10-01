@@ -52,7 +52,6 @@
     <Compile Include="MultiplayerManager\SendData\StartSenderThread.cs" />
     <Compile Include="ClientManager\Patches\OnSpawnPiece.cs" />
     <Compile Include="MultiplayerManager\SendData\SendOnSpawnPiece.cs" />
-    <Compile Include="Configs\MenuConfig.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="ClientManager\GetGameObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
