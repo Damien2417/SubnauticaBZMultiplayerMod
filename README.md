@@ -7,8 +7,6 @@ Please do not forget to modify these before using:
 
 -ip address to host the server in config.json file
 
--fix dependencies path 
-
 
 Please install .NET Framework 4.7.2 and set it for the ClientSubnautica project.
 
