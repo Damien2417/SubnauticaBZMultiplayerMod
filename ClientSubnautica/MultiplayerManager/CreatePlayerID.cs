@@ -11,7 +11,7 @@ namespace ClientSubnautica.MultiplayerManager
     {
         public static string GenerateID()
         {
-            var tid = Process.GetCurrentProcess().Id.ToString() + DateTime.Now.Subtract(new DateTime(1970, 1, 1)).TotalSeconds.ToString();
+            var tid = Process.GetCurrentProcess().Id.ToString() + ((int)DateTime.Now.Subtract(new DateTime(1970, 1, 1)).TotalSeconds).ToString();
             return tid;
         }
     }
