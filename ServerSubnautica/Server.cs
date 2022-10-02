@@ -87,6 +87,7 @@ class Server
                     if(idCMD == NetworkCMD.getIdCMD("RecievingID"))
                     {
                         id = command.Split(':')[1];
+                        Console.WriteLine("Server recieved a new ID from an entering connection" + id);
                         break;
                     }
                 }
