@@ -9,11 +9,11 @@ namespace ServerSubnautica
 {
     internal class HandleClient
     {
-        int id;
+        string id;
         TcpClient client;
         NetworkStream stream;
         ClientMethod clientAction = new ClientMethod();
-        public HandleClient(int id)
+        public HandleClient(string id)
         {
             this.id = id;
             lock (Server._lock) this.client = Server.list_clients[id];

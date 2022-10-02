@@ -44,6 +44,7 @@
     <Compile Include="MultiplayerManager\ReceiveData\RedirectData.cs" />
     <Compile Include="MultiplayerManager\ConnectToServer.cs" />
     <Compile Include="MultiplayerManager\ReceiveData\ReceiveDataFromServer.cs" />
+    <Compile Include="MultiplayerManager\SendData\SendMyID.cs" />
     <Compile Include="MultiplayerManager\SendData\SendOnPickup.cs" />
     <Compile Include="MultiplayerManager\SendData\SendOnDrop.cs" />
     <Compile Include="MultiplayerManager\SendData\SendTimePassed.cs" />
@@ -70,6 +71,9 @@
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>B:\SteamLibrary\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="QModInstaller, Version=4.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -115,6 +119,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

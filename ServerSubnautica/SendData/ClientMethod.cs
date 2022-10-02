@@ -8,7 +8,7 @@ namespace ServerSubnautica
 {
     internal class ClientMethod
     {
-        public void broadcast(string data, int id)
+        public void broadcast(string data, string id)
         {
             byte[] buffer = Encoding.ASCII.GetBytes(data);
             //Console.WriteLine("Sending data :"+data);
@@ -25,7 +25,7 @@ namespace ServerSubnautica
                 }
             }
         }
-        public void specialBroadcast(string data, int id)
+        public void specialBroadcast(string data, string id)
         {
             byte[] buffer = Encoding.ASCII.GetBytes(data);
             lock (Server._lock)

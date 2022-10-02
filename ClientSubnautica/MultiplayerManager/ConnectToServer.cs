@@ -14,9 +14,9 @@ namespace ClientSubnautica.MultiplayerManager
             IPAddress ipDest = IPAddress.Parse(ipArray[0]);
             int port = int.Parse(ipArray[1]);
             TcpClient client = new TcpClient();
-            SendMyID.start(client);
 
             client.Connect(ipDest, port);
+            SendMyID.start(client);
             return client;
         }
     }
