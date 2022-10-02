@@ -19,7 +19,7 @@ namespace ClientSubnautica.MultiplayerManager.ReceiveData
             {"6", "GetTimePassed"},
             {"7", "PickupItem"},
             {"8", "SpawnBasePiece"},
-            {"9", "RecievingID"}
+            {"9", "ReceivingID"}
         };
 
         public static string Translate(string idCMD)
