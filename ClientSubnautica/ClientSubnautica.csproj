@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,6 +38,7 @@
     <Compile Include="ClientManager\UniqueGuid.cs" />
     <Compile Include="ClientManager\Patches\DisablePause.cs" />
     <Compile Include="ClientManager\FunctionToClient.cs" />
+    <Compile Include="MultiplayerManager\CreatePlayerID.cs" />
     <Compile Include="MultiplayerManager\InitializeConnection.cs" />
     <Compile Include="MultiplayerManager\NetworkCMD.cs" />
     <Compile Include="MultiplayerManager\ReceiveData\RedirectData.cs" />
@@ -59,23 +61,23 @@
   <ItemGroup>
     <Reference Include="0Harmony, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(SubnauticaRootPath)\BepInEx\core\0Harmony.dll</HintPath>
+      <HintPath>B:\SteamLibrary\steamapps\common\SubnauticaZero\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(SubnauticaRootPath)\SubnauticaZero_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>B:\SteamLibrary\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(SubnauticaRootPath)\SubnauticaZero_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>B:\SteamLibrary\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="QModInstaller, Version=4.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(SubnauticaRootPath)\BepInEx\plugins\QModManager\QModInstaller.dll</HintPath>
+      <HintPath>B:\SteamLibrary\steamapps\common\SubnauticaZero\BepInEx\plugins\QModManager\QModInstaller.dll</HintPath>
     </Reference>
     <Reference Include="SMLHelper, Version=2.11.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(SubnauticaRootPath)\QMods\SMLHelper_BZ\SMLHelper.dll</HintPath>
+      <HintPath>B:\SteamLibrary\steamapps\common\SubnauticaZero\QMods\SMLHelper_BZ\SMLHelper.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -86,30 +88,30 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>$(SubnauticaRootPath)\SubnauticaZero_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+      <HintPath>B:\SteamLibrary\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(SubnauticaRootPath)\SubnauticaZero_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>B:\SteamLibrary\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(SubnauticaRootPath)\SubnauticaZero_Data\Managed\UnityEngine.AIModule.dll</HintPath>
+      <HintPath>B:\SteamLibrary\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\UnityEngine.AIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AnimationModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(SubnauticaRootPath)\SubnauticaZero_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+      <HintPath>B:\SteamLibrary\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(SubnauticaRootPath)\SubnauticaZero_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>B:\SteamLibrary\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(SubnauticaRootPath)\SubnauticaZero_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>B:\SteamLibrary\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>$(SubnauticaRootPath)\SubnauticaZero_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>B:\SteamLibrary\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -117,10 +119,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(SolutionDir)ClientSubnautica\$(OutDir)ClientSubnautica.dll" "$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod\ClientSubnautica.dll"
+    <PostBuildEvent>mkdir "B:\SteamLibrary\steamapps\common\SubnauticaZero\QMods\SubnauticaMultiplayerMod"
 
-start "" "$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.exe
-start "" "$(SubnauticaRootPath)\SubnauticaZero.exe"</PostBuildEvent>
+copy /Y "$(TargetPath)" "B:\SteamLibrary\steamapps\common\SubnauticaZero\QMods\SubnauticaMultiplayerMod\"
+
+start "" "$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.exe"
+start "" "B:\SteamLibrary\steamapps\common\SubnauticaZero\SubnauticaZero.exe"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

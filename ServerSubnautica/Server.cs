@@ -6,6 +6,8 @@ using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
+using System.Text;
 using System.Threading;
 
 class Server
@@ -22,6 +24,15 @@ class Server
 
     static void Main(string[] args)
     {
+        // Logging to file -- TEST / DO NOT TOUCH
+        string logsPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "logs.log");
+        FileStream filestream = new FileStream(logsPath, FileMode.OpenOrCreate);
+        StreamWriter writer = new StreamWriter(filestream);
+        writer.AutoFlush = true;
+        Console.SetOut(writer);
+        Console.SetError(writer);
+        // END OF LOGGING
+
         Server server = new Server();
         configParams = server.loadParam(configPath);
         
@@ -45,6 +56,7 @@ class Server
         string ipAddress = configParams["ipAddress"].ToString();
         int port = int.Parse(configParams["port"].ToString());
         int count = 1;
+
         IPAddress host = IPAddress.Parse(ipAddress);
         TcpListener ServerSocket = new TcpListener(host, port);
         ServerSocket.Start();
@@ -66,7 +78,21 @@ class Server
 
     public JObject loadParam(string path)
     {
-        return JObject.Parse(File.ReadAllText(path));
+        if (File.Exists(path))
+        {
+            return JObject.Parse(File.ReadAllText(path));
+        } else
+        {
+            File.WriteAllText(path,
+@"
+{
+    ""MapFolderName"": ""slot0000"",
+    ""ipAdress"": """+ Dns.GetHostEntry(Dns.GetHostName()).AddressList[1].ToString() + @""",
+    ""port"": 5000
+}
+");
+            return JObject.Parse(File.ReadAllText(path));
+        }
     }
 
 
