@@ -8,6 +8,7 @@ namespace ClientSubnautica.MultiplayerManager.ReceiveData
 {
     class NetworkCMD
     {
+        // These are "ids" or types of interactions that can be recieved.
         public static Dictionary<string, string> types = new Dictionary<string, string>()
         {
             {"1", "WorldPosition"},
@@ -32,6 +33,12 @@ namespace ClientSubnautica.MultiplayerManager.ReceiveData
                 return "";
             }
         }
+
+        /// <summary>
+        /// Get a type ID by CMD name
+        /// </summary>
+        /// <param name="value">CMD name</param>
+        /// <returns>string ("1", "2", "3", etc..)</returns>
         public static string getIdCMD(string value)
         {
             return NetworkCMD.types.FirstOrDefault(t => t.Value == value).Key;

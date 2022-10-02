@@ -37,7 +37,6 @@
     <Compile Include="ClientManager\UniqueGuid.cs" />
     <Compile Include="ClientManager\Patches\DisablePause.cs" />
     <Compile Include="ClientManager\FunctionToClient.cs" />
-    <Compile Include="MultiplayerManager\CreatePlayerID.cs" />
     <Compile Include="MultiplayerManager\InitializeConnection.cs" />
     <Compile Include="MultiplayerManager\NetworkCMD.cs" />
     <Compile Include="MultiplayerManager\ReceiveData\RedirectData.cs" />

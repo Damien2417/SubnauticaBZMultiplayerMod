@@ -69,6 +69,8 @@ class Server
         while (true)
         {
             TcpClient client = ServerSocket.AcceptTcpClient();
+            
+            // System to receive the ID
             string id = "";
             byte[] buffer = new byte[1024];
             int byte_count;
@@ -76,24 +78,28 @@ class Server
             string data = Encoding.ASCII.GetString(buffer, 0, byte_count);
             if (!data.Contains("/END/"))
                 continue;
+            // Split the greaaaat stream into commands
             string[] commands = data.Split(new string[] { "/END/" }, StringSplitOptions.None);
             foreach(string command in commands)
             {
                 if (command.Length <= 1)
                     continue;
+                // Try to see if this command contains an ID
                 try
                 {
-                    string idCMD = command.Split(':')[0];
-                    if(idCMD == NetworkCMD.getIdCMD("RecievingID"))
+                    string idCMD = command.Split(':')[0]; // A command looks like this globally: "9:6486198964615684:/END/" that's the scheme
+                    if(idCMD == NetworkCMD.getIdCMD("ReceivingID")) // Check if the command type is the one to receive an ID.
                     {
-                        id = command.Split(':')[1];
-                        Console.WriteLine("Server recieved a new ID from an entering connection" + id);
+                        id = command.Split(':')[1]; // If yes, then as we can see the id is just after 9: so [1].
+                        Console.WriteLine("Server received a new ID from an entering connection: " + id);
                         break;
                     }
+                } catch (Exception e)
+                {
+                    throw new Exception(e.Message, e);
                 }
-                catch (Exception) { }
             }
-            lock (_lock) list_clients.Add(id, client);
+            lock (_lock) list_clients.Add(id, client); // This adds the new client and its ID to the list, now that ID have been defined higher.
             Console.WriteLine("Someone connected, id: "+id);
             
             Thread receiveThread = new Thread(new HandleClient(id).start);
@@ -106,9 +112,10 @@ class Server
     {
         if (File.Exists(path))
         {
-            return JObject.Parse(File.ReadAllText(path));
+            return JObject.Parse(File.ReadAllText(path)); // Parse to a useable object.
         } else
         {
+            // If the file we're looking for does not exist, then a ne one is created with default values.
             File.WriteAllTextAsync(path,
 @"{
     ""MapFolderName"": ""slot0000"",
@@ -152,6 +159,10 @@ class Server
         return File.ReadAllBytes(path);
     }
 
+    /// <summary>
+    /// Gets the IPv4 of this computer. It will be a 25... if using Hamachi, for example.
+    /// </summary>
+    /// <returns>A string of IP Address (type IPv4)</returns>
     public static string GetLocalIPv4()
     {
         if (!NetworkInterface.GetIsNetworkAvailable()) 

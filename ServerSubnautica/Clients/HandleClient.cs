@@ -9,6 +9,7 @@ namespace ServerSubnautica
 {
     internal class HandleClient
     {
+        // ID of the users (provided by them at their first request)
         string id;
         TcpClient client;
         NetworkStream stream;
@@ -73,7 +74,9 @@ namespace ServerSubnautica
                 }
             }
         }
-
+        /// <summary>
+        /// Start the player connection, globally.
+        /// </summary>
         public void start()
         {
             loop();
@@ -84,7 +87,8 @@ namespace ServerSubnautica
         {
             while (true)
             {
-                int cont = 1;
+                // THIS IS THE PART WHER WE READ COMMANDS
+                int cont = 1; // I don't understand the point of this but no problem
                 byte[] buffer = new byte[1024];
                 //Array.Clear(buffer, 0, buffer.Length);
                 int byte_count;
@@ -124,6 +128,9 @@ namespace ServerSubnautica
             }
         }
 
+        /// <summary>
+        /// Well... It looks obvious... It disconnect the player.
+        /// </summary>
         public void endConnection()
         {
             lock (Server._lock) Server.list_clients.Remove(id);

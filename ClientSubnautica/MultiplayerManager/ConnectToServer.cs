@@ -16,6 +16,7 @@ namespace ClientSubnautica.MultiplayerManager
             TcpClient client = new TcpClient();
 
             client.Connect(ipDest, port);
+            // Send the ID of the player to the server. [HAVE IMPERATELY TO BE THE FIRST REQUEST]
             SendMyID.start(client);
             return client;
         }

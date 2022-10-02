@@ -12,9 +12,10 @@ namespace ClientSubnautica.MultiplayerManager.SendData
     {
         public static void start(TcpClient client2)
         {
+            // Get the datastream of the player
             NetworkStream ns2 = client2.GetStream();
-            var msgresponse = Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("SendingID") + ":" + MainPatcher.id + ":/END/");
-            ns2.Write(msgresponse, 0, msgresponse.Length);
+            var msgresponse = Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("SendingID") + ":" + MainPatcher.id + ":/END/"); // Create a message containing player ID
+            ns2.Write(msgresponse, 0, msgresponse.Length); // Sends the message.
         }
     }
 }

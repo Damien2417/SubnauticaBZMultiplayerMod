@@ -39,10 +39,15 @@ namespace ServerSubnautica
         {
             client.broadcast(NetworkCMD.getIdCMD("Disconnected") + ":" + param[0]+"/END/", param[0]);
         }
-        public void RecievingID(string[] param)
+
+        /// <summary>
+        /// This is unused, it is just here to ornate, and if one day we need it, well here it is.
+        /// </summary>
+        /// <param name="param">Command contents.</param>
+        public void ReceivingID(string[] param)
         {
-            client.broadcast(NetworkCMD.getIdCMD("RecievingID") + ":" + param[0] + "/END/", param[0]);
-            Console.WriteLine("ID Recieved:" + param[0]);
+            client.broadcast(NetworkCMD.getIdCMD("ReceivingID") + ":" + param[0] + "/END/", param[0]);
+            Console.WriteLine("ID Received:" + param[0]);
         }
 
     }
