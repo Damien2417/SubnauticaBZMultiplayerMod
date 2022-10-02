@@ -123,8 +123,7 @@
 
 copy /Y "$(TargetPath)" "B:\SteamLibrary\steamapps\common\SubnauticaZero\QMods\SubnauticaMultiplayerMod\"
 
-start "" "$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.exe"
-start "" "B:\SteamLibrary\steamapps\common\SubnauticaZero\SubnauticaZero.exe"</PostBuildEvent>
+start "" "$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.exe"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

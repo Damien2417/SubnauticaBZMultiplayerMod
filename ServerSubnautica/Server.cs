@@ -24,9 +24,9 @@ class Server
 
     static void Main(string[] args)
     {
-        // Logging to file -- TEST / DO NOT TOUCH
+        // Logging to file -- TEST / DO NOT TOUCH (but for working improvements)
         string logsPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "logs.log");
-        FileStream filestream = new FileStream(logsPath, FileMode.OpenOrCreate);
+        FileStream filestream = new FileStream(logsPath, FileMode.Create);
         StreamWriter writer = new StreamWriter(filestream);
         writer.AutoFlush = true;
         Console.SetOut(writer);
@@ -83,14 +83,12 @@ class Server
             return JObject.Parse(File.ReadAllText(path));
         } else
         {
-            File.WriteAllText(path,
-@"
-{
+            File.WriteAllTextAsync(path,
+@"{
     ""MapFolderName"": ""slot0000"",
-    ""ipAdress"": """+ Dns.GetHostEntry(Dns.GetHostName()).AddressList[1].ToString() + @""",
+    ""ipAddress"": """+ Dns.GetHostEntry(Dns.GetHostName()).AddressList[1].ToString() + @""",
     ""port"": 5000
-}
-");
+}");
             return JObject.Parse(File.ReadAllText(path));
         }
     }
