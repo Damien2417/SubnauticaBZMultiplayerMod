@@ -39,7 +39,7 @@ class Server
         // END OF LOGGING
 
         Server server = new Server();
-        configParams = server.loadParam(configPath);
+        configParams = server.LoadParam(configPath);
         
 
         mapName = configParams["MapFolderName"].ToString();
@@ -52,7 +52,7 @@ class Server
             Console.ReadKey();
             Environment.Exit(1);
         }
-        gameInfo = server.loadParam(gameInfoPath);
+        gameInfo = server.LoadParam(gameInfoPath);
 
         mapBytes = getFileBytes(mapPath);
 
@@ -108,22 +108,24 @@ class Server
         }
     }
 
-    public JObject loadParam(string path)
+    public JObject LoadParam(string path)
     {
         if (File.Exists(path))
         {
             return JObject.Parse(File.ReadAllText(path)); // Parse to a useable object.
-        } else
+        }
+        else if (path.EndsWith("config.json")) // Check if the file we're looking for is the config.json file
         {
             // If the file we're looking for does not exist, then a ne one is created with default values.
             File.WriteAllTextAsync(path,
 @"{
     ""MapFolderName"": ""slot0000"",
-    ""ipAddress"": """+ GetLocalIPv4() + @""",
+    ""ipAddress"": """ + GetLocalIPv4() + @""",
     ""port"": 5000
 }");
             return JObject.Parse(File.ReadAllText(path));
-        }
+        } // If it is not the config.json file, it throws a new exception.
+        else throw new Exception($"The file you're trying to access ({Path.GetFileName(path)}) does not exist or is inaccessible and has no default value.");
     }
 
 
