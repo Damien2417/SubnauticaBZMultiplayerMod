@@ -19,11 +19,11 @@ namespace ClientSubnautica.MultiplayerManager
         public static TcpClient client = new TcpClient();
         public static bool threadStarted = false;
 
-        public void start(string ip)
+        public void start(string ip, string nickname = null)
         {
             //Thread sender
 
-            client = ConnectToServer.start(ip);
+            client = ConnectToServer.start(ip, nickname);
 
             bool isconnected = client.Connected;
             NetworkStream ns = client.GetStream();

@@ -53,7 +53,7 @@ namespace ServerSubnautica
 
             byte[] buffer2 = new byte[1024];
             stream.Read(buffer2, 0, buffer2.Length);
-            clientAction.broadcast(NetworkCMD.getIdCMD("NewId") + ":" + this.id + "/END/", this.id);
+            clientAction.broadcast(NetworkCMD.getIdCMD("NewId") + $":{this.id}:{Server.list_nicknames[this.id]}/END/", this.id);
             string ids = "";
             lock (Server._lock)
             {
@@ -61,13 +61,13 @@ namespace ServerSubnautica
                 {
                     if (item.Key != this.id)
                     {
-                        ids += item.Key + ";";
+                        ids += $"{item.Key}&{Server.list_nicknames[item.Key]};";
                     }
                 }
             }
             if (ids.Length > 1)
             {
-                clientAction.specialBroadcast(NetworkCMD.getIdCMD("AllId") + ":" + ids + "/END/", this.id);
+                clientAction.specialBroadcast(NetworkCMD.getIdCMD("AllId") + $":{ids}/END/", this.id);
                 lock (Server._lock)
                 {
                     Server.list_clients.First().Value.GetStream().Write(Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("GetTimePassed") + "/END/"));

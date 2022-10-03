@@ -1,15 +1,37 @@
 ﻿using ClientSubnautica.MultiplayerManager.SendData;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 
 namespace ClientSubnautica.MultiplayerManager
 {
     class ConnectToServer
     {
         //Connect to server
-        public static TcpClient start(string ip)
+        public static TcpClient start(string ip, string nickname = null)
         {
             string[] ipArray = ip.Split(':');
+            if(nickname == null)
+            {
+                nickname = $"Player{MainPatcher.id}";
+            } else
+            {
+                try
+                {
+                    MainPatcher.configFile["nickname"] = nickname;
+                    var newjson = JsonConvert.SerializeObject(MainPatcher.configFile, Formatting.Indented);
+                    string conffilePath = Path.Combine(MainPatcher.modFolder, "player.json");
+                    File.WriteAllText(Path.Combine(MainPatcher.modFolder, "player.json"), newjson);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message, e);
+                }
+            }
 
             IPAddress ipDest = IPAddress.Parse(ipArray[0]);
             int port = int.Parse(ipArray[1]);

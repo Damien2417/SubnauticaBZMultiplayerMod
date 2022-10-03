@@ -28,8 +28,17 @@ namespace ClientSubnautica
                         gameObject.transform.position = new Vector3(GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/Home/EmailBox").transform.position.x, 0.25f, (float)(GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/Home/EmailBox").transform.position.z - 0.01));
                         gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
                         gameObject.transform.transform.rotation = (GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/Home/EmailBox").transform.rotation);
+                        
+                        /*GameObject gameObject2 = GameObject.Instantiate(GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/Home/EmailBox"));
+                        gameObject2.name = "NicknameMenu";
+                        gameObject2.transform.parent = GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/").transform;
+
+                        gameObject2.transform.position = new Vector3(GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/Home/EmailBox").transform.position.x, 0.25f, (float)(GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/Home/EmailBox").transform.position.z - 0.01));
+                        gameObject2.transform.localScale = new Vector3(1f, 1f, 1f);
+                        gameObject2.transform.transform.rotation = (GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/Home/EmailBox").transform.rotation);*/
 
                         GameObject.Destroy(gameObject.FindChild("HeaderText").GetComponent<TranslationLiveUpdate>());
+                        //GameObject.Destroy(gameObject2.FindChild("HeaderText").GetComponent<TranslationLiveUpdate>());
 
                         GameObject.Destroy(gameObject.transform.Find("SubscriptionSuccess/Text").GetComponent<TranslationLiveUpdate>());
                         GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/MultiplayerMenu/SubscriptionSuccess/Text").GetComponent<TextMeshProUGUI>().text = "Server found !";
@@ -46,7 +55,7 @@ namespace ClientSubnautica
                                 InitializeConnection test = new InitializeConnection();
                             try
                             {
-                                test.start(gameObject.FindChild("InputField").GetComponent<TMP_InputField>().text);
+                                test.start(gameObject.FindChild("InputField").GetComponent<TMP_InputField>().text, MainPatcher.username);
                                 GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/MultiplayerMenu/SubscriptionInProgress").SetActive(false);
 
                                 GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/MultiplayerMenu/SubscriptionSuccess").SetActive(true);
@@ -84,18 +93,25 @@ namespace ClientSubnautica
                         GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/MultiplayerMenu/InputField/Placeholder").GetComponent<TextMeshProUGUI>().text = "Enter the ip adress of the server...";
                         GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/MultiplayerMenu/InputField").GetComponent<TMP_InputField>().text = "127.0.0.1:5000";
 
+                        //GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/NicknameMenu/HeaderText").GetComponent<TextMeshProUGUI>().text = "My username";
+                        //GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/NicknameMenu/InputField/Placeholder").GetComponent<TextMeshProUGUI>().text = "Enter your new nickname";
+                        //GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/NicknameMenu/InputField").GetComponent<TMP_InputField>().text = MainPatcher.username;
+
                         GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/MultiplayerMenu/ViewPastUpdates/").SetActive(false);
+                        //GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/NicknameMenu/ViewPastUpdates/").SetActive(false);
 
                         uGUI_InputField playerNameInputField = gameObject.GetComponent<uGUI_InputField>();
 
                         SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetSceneByName("XMenu"));
 
                         gameObject.SetActive(true);
+                        //gameObject2.SetActive(true);
                     }
                 }
                 else
                 {
                     GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/MultiplayerMenu").SetActive(target == "SavedGames");
+                    //GameObject.Find("Menu canvas/Panel/MainMenu/RightSide/NicknameMenu").SetActive(target == "SavedGames");
                 }
             }                    
         }

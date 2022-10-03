@@ -19,6 +19,7 @@ class Server
 {
     public static readonly object _lock = new object();
     public static readonly Dictionary<string, TcpClient> list_clients = new Dictionary<string, TcpClient>();
+    public static readonly Dictionary<string, string> list_nicknames = new Dictionary<string, string>();
     public static byte[] mapBytes;
     public static string mapName;
     public static JObject configParams;
@@ -72,6 +73,7 @@ class Server
             
             // System to receive the ID
             string id = "";
+            string username = "";
             byte[] buffer = new byte[1024];
             int byte_count;
             byte_count = client.GetStream().Read(buffer, 0, buffer.Length);
@@ -91,7 +93,8 @@ class Server
                     if(idCMD == NetworkCMD.getIdCMD("ReceivingID")) // Check if the command type is the one to receive an ID.
                     {
                         id = command.Split(':')[1]; // If yes, then as we can see the id is just after 9: so [1].
-                        Console.WriteLine("Server received a new ID from an entering connection: " + id);
+                        username = command.Split(":")[2]; //
+                        Console.WriteLine($"Server received a new ID from an entering connection: {id} with name {username}");
                         break;
                     }
                 } catch (Exception e)
@@ -100,7 +103,8 @@ class Server
                 }
             }
             lock (_lock) list_clients.Add(id, client); // This adds the new client and its ID to the list, now that ID have been defined higher.
-            Console.WriteLine("Someone connected, id: "+id);
+            lock (_lock) list_nicknames.Add(id, username);
+            Console.WriteLine($"Someone connected, id: {id}, username: {username}");
             
             Thread receiveThread = new Thread(new HandleClient(id).start);
             receiveThread.Start();

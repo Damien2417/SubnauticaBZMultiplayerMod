@@ -8,10 +8,14 @@ namespace ClientSubnautica.ClientManager
 {
     class FunctionToClient
     {
-        public static void addPlayer(int id)
+        public static void addPlayer(string id, string username)
         {
             var pos = new Vector3((float)-294.3636, (float)17.02644, (float)252.9224);
             GameObject body = GameObject.Find("player_view_female");
+            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.Beacon);
+            GameObject beacon = GameObject.Instantiate(task.GetResult(), pos, Quaternion.identity);
+            beacon.GetComponentInChildren<BeaconLabel>().SetLabel(username);
+            body.AddComponent(beacon.GetComponentInChildren<BeaconLabel>().GetType());
 
             body.GetComponentInParent<Player>().staticHead.shadowCastingMode = ShadowCastingMode.On;
             lock (RedirectData.m_lockPlayers)
@@ -55,8 +59,8 @@ namespace ClientSubnautica.ClientManager
                 
                 lock (RedirectData.m_lockPlayers)
                 {
-                    RedirectData.players[int.Parse(data[0])].transform.position = new Vector3(xC, yC, zC);
-                    RedirectData.players[int.Parse(data[0])].transform.rotation = new Quaternion(x2C, y2C, z2C, w2C);
+                    RedirectData.players[data[0]].transform.position = new Vector3(xC, yC, zC);
+                    RedirectData.players[data[0]].transform.rotation = new Quaternion(x2C, y2C, z2C, w2C);
                 }
                 //posLastLoop[id] = lastPos[id];
 

@@ -12,7 +12,8 @@ namespace ClientSubnautica.MultiplayerManager
     static class RedirectData
     {
         public static List<String> receivedRequestsQueue = new List<String>();
-        public static ConcurrentDictionary<int, GameObject> players = new ConcurrentDictionary<int, GameObject>();
+        public static ConcurrentDictionary<string, GameObject> players = new ConcurrentDictionary<string, GameObject>();
+        public static ConcurrentDictionary<string, GameObject> playerBeacons = new ConcurrentDictionary<string, GameObject>();
         public static object m_lockRequests = new object();
         public static object m_lockPlayers = new object();
 

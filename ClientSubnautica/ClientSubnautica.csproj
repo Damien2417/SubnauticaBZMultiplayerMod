@@ -37,6 +37,7 @@
     <Compile Include="ClientManager\UniqueGuid.cs" />
     <Compile Include="ClientManager\Patches\DisablePause.cs" />
     <Compile Include="ClientManager\FunctionToClient.cs" />
+    <Compile Include="ModConfig.cs" />
     <Compile Include="MultiplayerManager\InitializeConnection.cs" />
     <Compile Include="MultiplayerManager\NetworkCMD.cs" />
     <Compile Include="MultiplayerManager\ReceiveData\RedirectData.cs" />
@@ -45,6 +46,7 @@
     <Compile Include="MultiplayerManager\SendData\SendMyID.cs" />
     <Compile Include="MultiplayerManager\SendData\SendOnPickup.cs" />
     <Compile Include="MultiplayerManager\SendData\SendOnDrop.cs" />
+    <Compile Include="MultiplayerManager\SendData\SendStoryGoal.cs" />
     <Compile Include="MultiplayerManager\SendData\SendTimePassed.cs" />
     <Compile Include="MultiplayerManager\SendData\SendMyPos.cs" />
     <Compile Include="StartMod\LoadMap.cs" />

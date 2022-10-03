@@ -7,6 +7,7 @@ using System.Reflection;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace ClientSubnautica
 {
@@ -16,7 +17,9 @@ namespace ClientSubnautica
         public static string location;
         public static string modFolder;
         public static string id;
+        public static string username;
         public static JObject configFile;
+        public static Dictionary<string, string> player_list = new Dictionary<string, string>();
 
         [QModPatch]
         public static void Patch()
@@ -27,7 +30,7 @@ namespace ClientSubnautica
             configFile = LoadParam(Path.Combine(modFolder, "player.json"));
             string playerID = configFile["playerID"].ToString();
             id = configFile["playerID"].ToString();
-            string username = configFile["nickname"].ToString();
+            username = configFile["nickname"].ToString();
 
             Assembly executingAssembly = Assembly.GetExecutingAssembly();
             string text = "dam_" + executingAssembly.GetName().Name;
