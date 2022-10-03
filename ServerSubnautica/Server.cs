@@ -96,6 +96,9 @@ class Server
                         username = command.Split(":")[2]; //
                         Console.WriteLine($"Server received a new ID from an entering connection: {id} with name {username}");
                         break;
+                    } else
+                    {
+                        new ClientMethod().redirectCall(command.Split(":"), command.Split(":")[1]);
                     }
                 } catch (Exception e)
                 {

@@ -5,6 +5,20 @@
     <TargetFramework>net5.0</TargetFramework>
     <ApplicationIcon>logo.ico</ApplicationIcon>
     <StartupObject />
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <Title>Subnautica Below Zero Server</Title>
+    <Description>This is the server-side app to run the Subnautica BZ server.</Description>
+    <Copyright>Open Source</Copyright>
+    <PackageProjectUrl>https://github.com/Damien2417/SubnauticaBZMultiplayerMod</PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/Damien2417/SubnauticaBZMultiplayerMod</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>game; open-source; mod; subnautica; server;</PackageTags>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <AssemblyVersion>2.1</AssemblyVersion>
+    <FileVersion>2.1.2</FileVersion>
+    <Version>2.1.2-beta</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,7 +26,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

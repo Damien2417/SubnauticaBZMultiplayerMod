@@ -43,6 +43,7 @@
     <Compile Include="MultiplayerManager\ReceiveData\RedirectData.cs" />
     <Compile Include="MultiplayerManager\ConnectToServer.cs" />
     <Compile Include="MultiplayerManager\ReceiveData\ReceiveDataFromServer.cs" />
+    <Compile Include="MultiplayerManager\SendData\GetAllPlayers.cs" />
     <Compile Include="MultiplayerManager\SendData\SendMyID.cs" />
     <Compile Include="MultiplayerManager\SendData\SendOnPickup.cs" />
     <Compile Include="MultiplayerManager\SendData\SendOnDrop.cs" />

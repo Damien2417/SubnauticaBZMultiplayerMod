@@ -12,10 +12,10 @@ namespace ClientSubnautica.ClientManager
         {
             var pos = new Vector3((float)-294.3636, (float)17.02644, (float)252.9224);
             GameObject body = GameObject.Find("player_view_female");
-            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.Beacon);
-            GameObject beacon = GameObject.Instantiate(task.GetResult(), pos, Quaternion.identity);
-            beacon.GetComponentInChildren<BeaconLabel>().SetLabel(username);
-            body.AddComponent(beacon.GetComponentInChildren<BeaconLabel>().GetType());
+            //Beacon beacon = new Beacon();
+            //beacon.transform.parent = body.transform;
+            //beacon.label = username;
+            //BeaconManager.Add(beacon);
 
             body.GetComponentInParent<Player>().staticHead.shadowCastingMode = ShadowCastingMode.On;
             lock (RedirectData.m_lockPlayers)

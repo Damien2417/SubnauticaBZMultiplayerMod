@@ -1,5 +1,7 @@
 ﻿using ClientSubnautica.MultiplayerManager.ReceiveData;
 using System;
+using System.Linq;
+using System.Text;
 
 namespace ServerSubnautica
 {
@@ -9,7 +11,7 @@ namespace ServerSubnautica
         public void WorldPosition(string[] param)
         {
             client.broadcast(NetworkCMD.getIdCMD("WorldPosition") + ":" + param[0] + ";" + param[1] + ";" + param[2] + ";" + param[3] + ";" + param[4] + ";" + param[5] + ";" + param[6] +";" + param[7] + "/END/", param[0]);
-            Console.WriteLine("id: "+ param[0] + " at position: " + param[1]+";"+param[2]+";"+param[3] + " rotation: "+ param[4] + ";" + param[5] + ";" + param[6] + ";" + param[7]);
+            //Console.WriteLine("id: "+ param[0] + " at position: " + param[1]+";"+param[2]+";"+param[3] + " rotation: "+ param[4] + ";" + param[5] + ";" + param[6] + ";" + param[7]);
         }
 
         public void SpawnItem(string[] param)
@@ -37,7 +39,9 @@ namespace ServerSubnautica
         
         public void Disconnected(string[] param)
         {
-            client.broadcast(NetworkCMD.getIdCMD("Disconnected") + ":" + param[0]+"/END/", param[0]);
+            Server.list_clients.Remove(param[0]);
+            Server.list_nicknames.Remove(param[0]);
+            client.broadcast(NetworkCMD.getIdCMD("Disconnected") + ":" + param[0] + "/END/", param[0]);
         }
 
         /// <summary>
@@ -48,6 +52,19 @@ namespace ServerSubnautica
         {
             client.broadcast(NetworkCMD.getIdCMD("ReceivingID") + ":" + param[0] + "/END/", param[0]);
             Console.WriteLine("ID Received:" + param[0]);
+        }
+
+        public void AllId(string[] param)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach(string player in Server.list_nicknames.Keys)
+            {
+                if (player != param[0])
+                    continue;
+                sb.Append($":{player}&{Server.list_nicknames[player]}");
+            }
+            client.broadcast(NetworkCMD.getIdCMD("AllId") + $"{sb}/END/", param[0]);
+            Console.WriteLine($"{param[0]} requested every IDs of the game. (returned '{sb}')");
         }
 
     }

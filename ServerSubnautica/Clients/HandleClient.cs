@@ -54,6 +54,7 @@ namespace ServerSubnautica
             byte[] buffer2 = new byte[1024];
             stream.Read(buffer2, 0, buffer2.Length);
             clientAction.broadcast(NetworkCMD.getIdCMD("NewId") + $":{this.id}:{Server.list_nicknames[this.id]}/END/", this.id);
+            Console.WriteLine($"{NetworkCMD.getIdCMD("NewId")}:{this.id}:{Server.list_nicknames[this.id]}/END/");
             string ids = "";
             lock (Server._lock)
             {

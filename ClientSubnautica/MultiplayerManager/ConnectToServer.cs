@@ -40,6 +40,8 @@ namespace ClientSubnautica.MultiplayerManager
             client.Connect(ipDest, port);
             // Send the ID of the player to the server. [HAVE IMPERATELY TO BE THE FIRST REQUEST]
             SendMyID.start(client);
+            // Check if there are other players, if yes, each player will be generated
+            GetAllPlayers.start(client);
             return client;
         }
     }

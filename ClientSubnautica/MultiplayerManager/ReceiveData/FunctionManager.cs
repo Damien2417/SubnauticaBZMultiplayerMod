@@ -41,6 +41,7 @@ namespace ClientSubnautica.MultiplayerManager
                 GameObject.Destroy(RedirectData.players[param[0]]);
 
                 RedirectData.players.TryRemove(param[0], out val);
+                MainPatcher.player_list.Remove(param[0]);
             }
             //ApplyPatches.posLastLoop.TryRemove(int.Parse(id), out val2);
             //ApplyPatches.lastPos.TryRemove(int.Parse(id), out val3);
