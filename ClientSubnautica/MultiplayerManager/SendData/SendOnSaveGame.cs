@@ -29,43 +29,40 @@ namespace ClientSubnautica.MultiplayerManager.SendData
                 string rotyTemp = "";
                 string rotzTemp = "";
                 string rotwTemp = "";
-                while (true)
+                try
                 {
-                    try
-                    {
-                        Quaternion roTemp = MainCameraControl.main.viewModel.transform.rotation;
-                        rotxTemp = roTemp.x.ToString();
-                        rotyTemp = roTemp.y.ToString();
-                        rotzTemp = roTemp.z.ToString();
-                        rotwTemp = roTemp.w.ToString();
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                        throw;
-                    }
-                    if (position.x.ToString() != x |
-                        position.y.ToString() != y |
-                        position.z.ToString() != z |
-                        rotxTemp != rotx | rotyTemp != roty |
-                        rotzTemp != rotz | rotwTemp != rotw)
-                    {
-                        rotx = rotxTemp;
-                        roty = rotyTemp;
-                        rotz = rotzTemp;
-                        rotw = rotwTemp;
-                        byte[] msgresponse = Encoding.ASCII.GetBytes("");
-                        Array.Clear(msgresponse, 0, msgresponse.Length);
+                    Quaternion roTemp = MainCameraControl.main.viewModel.transform.rotation;
+                    rotxTemp = roTemp.x.ToString();
+                    rotyTemp = roTemp.y.ToString();
+                    rotzTemp = roTemp.z.ToString(); 
+                    rotwTemp = roTemp.w.ToString();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
 
-                        msgresponse = Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("SaveGameRequest") + ":" +
-                                                              position.x + ";" +
-                                                              position.y + ";" +
-                                                              position.z + ";" + rotx + ";" +
-                                                              roty + ";" + rotz + ";" + rotw + "/END/");
+                if (position.x.ToString() != x | 
+                    position.y.ToString() != y | 
+                    position.z.ToString() != z | 
+                    rotxTemp != rotx | rotyTemp != roty |
+                    rotzTemp != rotz | rotwTemp != rotw)
+                {
+                    rotx = rotxTemp;
+                    roty = rotyTemp;
+                    rotz = rotzTemp;
+                    rotw = rotwTemp;
+                    byte[] msgresponse = Encoding.ASCII.GetBytes("");
+                    Array.Clear(msgresponse, 0, msgresponse.Length);
+                    msgresponse = Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("SaveGameRequest") + ":" + 
+                                                          position.x + ";" +
+                                                          position.y + ";" +
+                                                          position.z + ";" + rotx + ";" +
+                                                          roty + ";" + rotz + ";" + rotw + "/END/");
 
-                        ns2.Write(msgresponse, 0, msgresponse.Length);
-                        return true;
-                    }
+                    ns2.Write(msgresponse, 0, msgresponse.Length);
+                    return true;
                 }
             }
             catch (Exception e)
@@ -73,6 +70,8 @@ namespace ClientSubnautica.MultiplayerManager.SendData
                 Console.WriteLine(e);
                 return false;
             }
+
+            return false;
         }
     }
 }
