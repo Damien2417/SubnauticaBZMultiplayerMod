@@ -135,7 +135,10 @@ REM This command, just down here, will use the powershell. Powershell will only 
 powershell "Get-ChildItem -Path '$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod\ClientSubnautica.dll', '$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod\mod.json' | Compress-Archive -Force -DestinationPath '$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod\SubnauticaMultiplayerMod.zip'"
 
 REM This command will compress the server files into a ZIP file. It's better for the shipping and distribution.
-powershell "Get-ChildItem -Path '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.exe', '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\Newtonsoft.Json.dll', '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.dll', '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.pdb' | Compress-Archive -Force -DestinationPath '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.zip'"
+powershell "Get-ChildItem -Path '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.exe', '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\Newtonsoft.Json.dll', '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.dll', '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.runtimeconfig.json' | Compress-Archive -Force -DestinationPath '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.zip'"
+
+REM inserts a pause for checking files before launching game and server
+pause
 
 REM and this will just run the server and the game.
 start "" "$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.exe"
