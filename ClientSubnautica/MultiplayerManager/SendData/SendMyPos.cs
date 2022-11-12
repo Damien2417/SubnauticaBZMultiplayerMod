@@ -44,7 +44,7 @@ namespace ClientSubnautica.MultiplayerManager.SendData
                         byte[] msgresponse = Encoding.ASCII.GetBytes("");
                         Array.Clear(msgresponse, 0, msgresponse.Length);
 
-                        msgresponse = Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("WorldPosition") +":" + Player.main.transform.position.x + ";" + Player.main.transform.position.y + ";" + Player.main.transform.position.z +";"+rotx+";"+roty+";"+rotz+";"+rotw+ "/END/");
+                        msgresponse = Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("WorldPosition") +":" + MainPatcher.id + ";"+ Player.main.transform.position.x + ";" + Player.main.transform.position.y + ";" + Player.main.transform.position.z +";"+rotx+";"+roty+";"+rotz+";"+rotw+ "/END/");
 
                         // Position envoyé !
                         ns2.Write(msgresponse, 0, msgresponse.Length);

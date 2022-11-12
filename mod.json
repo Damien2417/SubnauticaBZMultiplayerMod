@@ -1,0 +1,15 @@
+{
+  "Id": "SubnauticaMultiplayerMod",
+  "DisplayName": "Subnautica Multiplayer Mod",
+  "Author": "Damien, contributors",
+  "Version": "2.1.3",
+  "Dependecies": [],
+  "VersionDependencies": {
+    "SMLHelper": "2.14.0"
+  },
+  "LoadBefore": [],
+  "LoadAfter": [],
+  "Enable": true,
+  "Game": "BelowZero",
+  "AssemblyName": "ClientSubnautica.dll"
+}

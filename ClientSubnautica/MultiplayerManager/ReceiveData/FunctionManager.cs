@@ -12,6 +12,7 @@ namespace ClientSubnautica.MultiplayerManager
         public void WorldPosition(string[] param)
         {
             FunctionToClient.setPosPlayer(param);
+            ErrorMessage.AddMessage("Player " + param[0] + " position updated");
         }
 
         public void NewId(string[] param)
@@ -28,6 +29,7 @@ namespace ClientSubnautica.MultiplayerManager
                 {
                     var entries = playerData.Split('&');
                     FunctionToClient.addPlayer(entries[0], entries[1]);
+                    ErrorMessage.AddMessage("Players " + entries[0] + " (" + entries[1] + ") added.");
                 }
             } 
         }
