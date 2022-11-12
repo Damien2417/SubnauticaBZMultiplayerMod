@@ -12,20 +12,24 @@ namespace ClientSubnautica.MultiplayerManager
         public void WorldPosition(string[] param)
         {
             FunctionToClient.setPosPlayer(param);
+            ErrorMessage.AddMessage("Player " + param[0] + " position updated");
         }
 
         public void NewId(string[] param)
         {
-            FunctionToClient.addPlayer(int.Parse(param[0]));
+            MainPatcher.player_list.Add(param[0], param[1]);
+            FunctionToClient.addPlayer(param[0], param[1]);
             ErrorMessage.AddMessage("Player " + param[0] + " joined !");
         }
         public void AllId(string[] param)
         {
-            foreach (var id in param)
+            foreach (string playerData in param)
             {
-                if (id.Length > 0)
+                if (playerData.Length > 0)
                 {
-                    FunctionToClient.addPlayer(int.Parse(id));
+                    var entries = playerData.Split('&');
+                    FunctionToClient.addPlayer(entries[0], entries[1]);
+                    ErrorMessage.AddMessage("Players " + entries[0] + " (" + entries[1] + ") added.");
                 }
             } 
         }
@@ -36,9 +40,10 @@ namespace ClientSubnautica.MultiplayerManager
             //string val3;
             lock (RedirectData.m_lockPlayers)
             {
-                GameObject.Destroy(RedirectData.players[int.Parse(param[0])]);
+                GameObject.Destroy(RedirectData.players[param[0]]);
 
-                RedirectData.players.TryRemove(int.Parse(param[0]), out val);
+                RedirectData.players.TryRemove(param[0], out val);
+                MainPatcher.player_list.Remove(param[0]);
             }
             //ApplyPatches.posLastLoop.TryRemove(int.Parse(id), out val2);
             //ApplyPatches.lastPos.TryRemove(int.Parse(id), out val3);
@@ -47,7 +52,7 @@ namespace ClientSubnautica.MultiplayerManager
 
         public void SpawnItem(string[] param)
         {
-            CoroutineHost.StartCoroutine(Enumerable.SetupNewGameObject((TechType)Enum.Parse(typeof(TechType), param[1]), RedirectData.players[int.Parse(param[0])].transform.position, param[2], returnValue =>
+            CoroutineHost.StartCoroutine(Enumerable.SetupNewGameObject((TechType)Enum.Parse(typeof(TechType), param[1]), RedirectData.players[param[0]].transform.position, param[2], returnValue =>
             {
             }));
 

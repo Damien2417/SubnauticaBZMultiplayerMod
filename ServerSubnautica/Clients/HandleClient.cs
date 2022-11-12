@@ -9,11 +9,12 @@ namespace ServerSubnautica
 {
     internal class HandleClient
     {
-        int id;
+        // ID of the users (provided by them at their first request)
+        string id;
         TcpClient client;
         NetworkStream stream;
         ClientMethod clientAction = new ClientMethod();
-        public HandleClient(int id)
+        public HandleClient(string id)
         {
             this.id = id;
             lock (Server._lock) this.client = Server.list_clients[id];
@@ -52,7 +53,8 @@ namespace ServerSubnautica
 
             byte[] buffer2 = new byte[1024];
             stream.Read(buffer2, 0, buffer2.Length);
-            clientAction.broadcast(NetworkCMD.getIdCMD("NewId") + ":" + this.id + "/END/", this.id);
+            clientAction.broadcast(NetworkCMD.getIdCMD("NewId") + $":{this.id}:{Server.list_nicknames[this.id]}/END/", this.id);
+            Console.WriteLine($"{NetworkCMD.getIdCMD("NewId")}:{this.id}:{Server.list_nicknames[this.id]}/END/");
             string ids = "";
             lock (Server._lock)
             {
@@ -60,20 +62,22 @@ namespace ServerSubnautica
                 {
                     if (item.Key != this.id)
                     {
-                        ids += item.Key + ";";
+                        ids += $"{item.Key}&{Server.list_nicknames[item.Key]};";
                     }
                 }
             }
             if (ids.Length > 1)
             {
-                clientAction.specialBroadcast(NetworkCMD.getIdCMD("AllId") + ":" + ids + "/END/", this.id);
+                clientAction.specialBroadcast(NetworkCMD.getIdCMD("AllId") + $":{ids}/END/", this.id);
                 lock (Server._lock)
                 {
                     Server.list_clients.First().Value.GetStream().Write(Encoding.ASCII.GetBytes(NetworkCMD.getIdCMD("GetTimePassed") + "/END/"));
                 }
             }
         }
-
+        /// <summary>
+        /// Start the player connection, globally.
+        /// </summary>
         public void start()
         {
             loop();
@@ -84,7 +88,8 @@ namespace ServerSubnautica
         {
             while (true)
             {
-                int cont = 1;
+                // THIS IS THE PART WHER WE READ COMMANDS
+                int cont = 1; // I don't understand the point of this but no problem
                 byte[] buffer = new byte[1024];
                 //Array.Clear(buffer, 0, buffer.Length);
                 int byte_count;
@@ -124,6 +129,9 @@ namespace ServerSubnautica
             }
         }
 
+        /// <summary>
+        /// Well... It looks obvious... It disconnect the player.
+        /// </summary>
         public void endConnection()
         {
             lock (Server._lock) Server.list_clients.Remove(id);

@@ -37,13 +37,17 @@
     <Compile Include="ClientManager\UniqueGuid.cs" />
     <Compile Include="ClientManager\Patches\DisablePause.cs" />
     <Compile Include="ClientManager\FunctionToClient.cs" />
+    <Compile Include="ModConfig.cs" />
     <Compile Include="MultiplayerManager\InitializeConnection.cs" />
     <Compile Include="MultiplayerManager\NetworkCMD.cs" />
     <Compile Include="MultiplayerManager\ReceiveData\RedirectData.cs" />
     <Compile Include="MultiplayerManager\ConnectToServer.cs" />
     <Compile Include="MultiplayerManager\ReceiveData\ReceiveDataFromServer.cs" />
+    <Compile Include="MultiplayerManager\SendData\GetAllPlayers.cs" />
+    <Compile Include="MultiplayerManager\SendData\SendMyID.cs" />
     <Compile Include="MultiplayerManager\SendData\SendOnPickup.cs" />
     <Compile Include="MultiplayerManager\SendData\SendOnDrop.cs" />
+    <Compile Include="MultiplayerManager\SendData\SendStoryGoal.cs" />
     <Compile Include="MultiplayerManager\SendData\SendTimePassed.cs" />
     <Compile Include="MultiplayerManager\SendData\SendMyPos.cs" />
     <Compile Include="StartMod\LoadMap.cs" />
@@ -68,6 +72,9 @@
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(SubnauticaRootPath)\SubnauticaZero_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="QModInstaller, Version=4.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -113,13 +120,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(SolutionDir)ClientSubnautica\$(OutDir)ClientSubnautica.dll" "$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod\ClientSubnautica.dll"
+    <PostBuildEvent>REM This part will make a folder for the mod, then if it worked it will copy ClientSubnautica.dll and mod.json from the project folder to the mod folder.
+mkdir /Y "$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod" &amp;&amp; copy /Y "$(SolutionDir)ClientSubnautica\$(OutDir)ClientSubnautica.dll" "$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod\ClientSubnautica.dll" &amp; copy /Y "$(SolutionDir)mod.json" "$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod\mod.json"
 
-start "" "$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.exe
+REM This command, just down here, will use the powershell. Powershell will only compress the both files.
+powershell "Get-ChildItem -Path '$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod\ClientSubnautica.dll', '$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod\mod.json' | Compress-Archive -Force -DestinationPath '$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod\SubnauticaMultiplayerMod.zip'"
+
+REM This command will compress the server files into a ZIP file. It's better for the shipping and distribution.
+powershell "Get-ChildItem -Path '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.exe', '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\Newtonsoft.Json.dll', '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.dll', '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.runtimeconfig.json' | Compress-Archive -Force -DestinationPath '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.zip'"
+
+REM inserts a pause for checking files before launching game and server
+pause
+
+REM and this will just run the server and the game.
+start "" "$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.exe"
 start "" "$(SubnauticaRootPath)\SubnauticaZero.exe"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>

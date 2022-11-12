@@ -8,6 +8,7 @@ namespace ClientSubnautica.MultiplayerManager.ReceiveData
 {
     class NetworkCMD
     {
+        // Same than the NetworkCMD.cs of Server side.
         public static Dictionary<string, string> types = new Dictionary<string, string>()
         {
             {"1", "WorldPosition"},
@@ -17,7 +18,8 @@ namespace ClientSubnautica.MultiplayerManager.ReceiveData
             {"5", "AllId"},
             {"6", "GetTimePassed"},
             {"7", "PickupItem"},
-            {"8", "SpawnBasePiece"}
+            {"8", "SpawnBasePiece"},
+            {"9", "SendingID"}
         };
 
         public static string Translate(string idCMD)
