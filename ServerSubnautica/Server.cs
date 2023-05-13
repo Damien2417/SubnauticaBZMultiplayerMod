@@ -14,10 +14,11 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using ServerSubnautica.IO;
 
 class Server
 {
-    public static readonly object _lock = new object();
+    public static readonly object _lock = new();
     public static readonly Dictionary<string, TcpClient> list_clients = new Dictionary<string, TcpClient>();
     public static readonly Dictionary<string, string> list_nicknames = new Dictionary<string, string>();
     public static byte[] mapBytes;
@@ -32,16 +33,27 @@ class Server
     {
         // Logging to file -- TEST / DO NOT TOUCH (but for working improvements)
         string logsPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "logs.log");
-        FileStream filestream = new FileStream(logsPath, FileMode.Create);
-        StreamWriter writer = new StreamWriter(filestream);
-        writer.AutoFlush = true;
-        Console.SetOut(writer);
-        Console.SetError(writer);
+        FileStream filestream = new(logsPath, FileMode.Create);
+        StreamWriter fw = new(filestream)
+        {
+            AutoFlush = true
+        };
+        MultiTextWriter logger = new();
+        logger.AddWriter(fw);
+        logger.AddWriter(Console.Out);
+        MultiTextWriter errorLogger = new();
+        errorLogger.AddWriter(fw);
+        errorLogger.AddWriter(Console.Error);
+
+        Console.SetOut(logger);
+        Console.SetError(errorLogger);
         // END OF LOGGING
 
-        Server server = new Server();
+        Server server = new();
         configParams = server.LoadParam(configPath);
-        
+
+        Console.WriteLine("Starting Subnautica BZ server...");
+
 
         mapName = configParams["MapFolderName"].ToString();
         gameInfoPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, mapName, "gameinfo.json");
@@ -63,7 +75,7 @@ class Server
         int port = int.Parse(configParams["port"].ToString());
 
         IPAddress host = IPAddress.Parse(ipAddress);
-        TcpListener ServerSocket = new TcpListener(host, port);
+        TcpListener ServerSocket = new(host, port);
         ServerSocket.Start();
         Console.WriteLine("Listening on "+ ipAddress + ":"+port);
 
@@ -109,7 +121,7 @@ class Server
             lock (_lock) list_nicknames.Add(id, username);
             Console.WriteLine($"Someone connected, id: {id}, username: {username}");
             
-            Thread receiveThread = new Thread(new HandleClient(id).start);
+            Thread receiveThread = new(new HandleClient(id).start);
             receiveThread.Start();
             Thread.Sleep(5);
         }
@@ -127,7 +139,7 @@ class Server
             File.WriteAllTextAsync(path,
 @"{
     ""MapFolderName"": ""slot0000"",
-    ""ipAddress"": """ + GetLocalIPv4() + @""",
+    ""ipAddress"": ""0.0.0.0"",
     ""port"": 5000
 }");
             return JObject.Parse(File.ReadAllText(path));
@@ -166,19 +178,5 @@ class Server
     public static byte[] getFileBytes(string path)
     {
         return File.ReadAllBytes(path);
-    }
-
-    /// <summary>
-    /// Gets the IPv4 of this computer. It will be a 25... if using Hamachi, for example.
-    /// </summary>
-    /// <returns>A string of IP Address (type IPv4)</returns>
-    public static string GetLocalIPv4()
-    {
-        if (!NetworkInterface.GetIsNetworkAvailable()) 
-            return null;
-
-        IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-
-        return host.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork).ToString();
     }
 }

@@ -7,7 +7,7 @@ namespace ServerSubnautica
 {
     class FunctionManager
     {
-        ClientMethod client = new ClientMethod();
+        readonly ClientMethod client = new();
         public void WorldPosition(string[] param)
         {
             client.broadcast(NetworkCMD.getIdCMD("WorldPosition") + ":" + param[0] + ";" + param[1] + ";" + param[2] + ";" + param[3] + ";" + param[4] + ";" + param[5] + ";" + param[6] +";" + param[7] + "/END/", param[0]);
@@ -56,7 +56,7 @@ namespace ServerSubnautica
 
         public void AllId(string[] param)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             foreach(string player in Server.list_nicknames.Keys)
             {
                 if (player != param[0])
