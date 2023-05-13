@@ -10,7 +10,7 @@ namespace ClientSubnautica.StartMod
         {
             GameObject a = new GameObject();
             yield return CoroutineHost.StartCoroutine(__instance.LoadGameAsync(saveGame, session,int.Parse(changeSet), gameMode, options,int.Parse(storyVersion)));
-            if (callback != null) { callback.Invoke(a); }
+            callback?.Invoke(a);
         }
     }
 }

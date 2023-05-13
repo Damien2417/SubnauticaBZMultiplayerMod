@@ -129,20 +129,15 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>REM This part will make a folder for the mod, then if it worked it will copy ClientSubnautica.dll and mod.json from the project folder to the mod folder.
-mkdir /Y "$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod" &amp;&amp; copy /Y "$(SolutionDir)ClientSubnautica\$(OutDir)ClientSubnautica.dll" "$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod\ClientSubnautica.dll" &amp; copy /Y "$(SolutionDir)mod.json" "$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod\mod.json"
+mkdir "$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod"
+copy /Y "$(SolutionDir)ClientSubnautica\$(OutDir)ClientSubnautica.dll" "$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod\ClientSubnautica.dll"
+copy /Y "$(SolutionDir)mod.json" "$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod\mod.json"
 
 REM This command, just down here, will use the powershell. Powershell will only compress the both files.
 powershell "Get-ChildItem -Path '$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod\ClientSubnautica.dll', '$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod\mod.json' | Compress-Archive -Force -DestinationPath '$(SubnauticaRootPath)\QMods\SubnauticaMultiplayerMod\SubnauticaMultiplayerMod.zip'"
 
 REM This command will compress the server files into a ZIP file. It's better for the shipping and distribution.
-powershell "Get-ChildItem -Path '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.exe', '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\Newtonsoft.Json.dll', '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.dll', '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.runtimeconfig.json' | Compress-Archive -Force -DestinationPath '$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.zip'"
-
-REM inserts a pause for checking files before launching game and server
-pause
-
-REM and this will just run the server and the game.
-start "" "$(SolutionDir)ServerSubnautica\$(OutDir)net5.0\ServerSubnautica.exe"
-start "" "$(SubnauticaRootPath)\SubnauticaZero.exe"</PostBuildEvent>
+powershell "Get-ChildItem -Path '$(SolutionDir)ServerSubnautica\$(OutDir)net7.0\ServerSubnautica.exe', '$(SolutionDir)ServerSubnautica\$(OutDir)net7.0\Newtonsoft.Json.dll', '$(SolutionDir)ServerSubnautica\$(OutDir)net7.0\ServerSubnautica.dll', '$(SolutionDir)ServerSubnautica\$(OutDir)net7.0\ServerSubnautica.runtimeconfig.json' | Compress-Archive -Force -DestinationPath '$(SolutionDir)ServerSubnautica\$(OutDir)net7.0\ServerSubnautica.zip'"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
