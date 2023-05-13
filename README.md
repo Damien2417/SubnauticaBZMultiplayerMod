@@ -7,7 +7,7 @@ Please do not forget to modify these before using:
 - ip address to host the server in config.json file (if the one created is not the one you want to use)  
 
 Please install [**.NET Framework 4.7.2**](https://dotnet.microsoft.com/download/dotnet-framework/net472 ".NET Framework 4.7.2") and set it for the ClientSubnautica project.  
-Please install [**.NET 5.0**](https://dotnet.microsoft.com/download/dotnet/5.0 ".NET 5.0") and set it for the ServerSubnautica project.  
+Please install [**.NET 7.0**](https://dotnet.microsoft.com/download/dotnet/7.0 ".NET 7.0") and set it for the ServerSubnautica project.  
 
 ## Using
 Open solution in Visual Studio and build the whole project. It will build project, setup the mod DLL, start the server and subnautica  

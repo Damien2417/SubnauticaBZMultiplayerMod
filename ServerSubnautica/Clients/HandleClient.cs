@@ -135,7 +135,7 @@ namespace ServerSubnautica
         public void endConnection()
         {
             lock (Server._lock) Server.list_clients.Remove(id);
-            Console.WriteLine("Someone deconnected, id: " + id);
+            Console.WriteLine("Someone disconnected, id: " + id);
             client.Client.Shutdown(SocketShutdown.Both);
             client.Close();
             clientAction.redirectCall(new string[] { id.ToString() }, NetworkCMD.getIdCMD("Disconnected"));

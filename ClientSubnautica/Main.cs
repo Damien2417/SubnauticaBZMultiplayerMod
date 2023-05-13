@@ -31,6 +31,10 @@ namespace ClientSubnautica
             string playerID = configFile["playerID"].ToString();
             id = configFile["playerID"].ToString();
             username = configFile["nickname"].ToString();
+            if (configFile["server"] == null)
+            {
+                configFile["server"] = "127.0.0.1:5000";
+            }
 
             Assembly executingAssembly = Assembly.GetExecutingAssembly();
             string text = "dam_" + executingAssembly.GetName().Name;
@@ -56,7 +60,8 @@ namespace ClientSubnautica
 @"{
     ""WARNING"": ""DO NOT CHANGE OR DELETE THE ID OR YOU WILL LOSE ALL YOUR PROGRESSIONS ON EVERY GAMES"",
     ""playerID"": """ + id + @""",
-    ""nickname"": ""Player" + id + @"""
+    ""nickname"": ""Player" + id + @""",
+    ""server"": ""127.0.0.1:5000""
 }");
                 return JObject.Parse(File.ReadAllText(path));
             }
